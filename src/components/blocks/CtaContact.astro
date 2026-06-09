@@ -1,0 +1,49 @@
+---
+import { liens, contact } from '../../data/site';
+import ContactForm from '../forms/ContactForm.astro';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  titre?: string;
+  intro?: string;
+  /** Affiche le formulaire court à droite */
+  avecFormulaire?: boolean;
+  id?: string;
+}
+const {
+  titre = 'Parlons de votre avenir chez Prestant',
+  intro = "Un échange sans engagement pour découvrir le réseau, le métier et nos opportunités. Choisissez le canal qui vous convient.",
+  avecFormulaire = true,
+  id = 'contact',
+} = Astro.props;
+---
+<section id={id} class="bg-encre text-blanc py-20 sm:py-28">
+  <div class="container-prestant">
+    <div class={`grid gap-12 lg:gap-16 ${avecFormulaire ? 'lg:grid-cols-2 lg:items-center' : ''}`}>
+      <div data-reveal>
+        <p class="eyebrow mb-4">Prendre contact</p>
+        <h2 class="display text-3xl sm:text-4xl text-blanc">{titre}</h2>
+        <div class="filet mt-6"></div>
+        <p class="mt-6 max-w-prose font-light leading-relaxed text-pierre-200">{intro}</p>
+
+        <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
+          <Button href={liens.whatsapp} variant="primary" size="lg">WhatsApp</Button>
+          <Button href={liens.tel} variant="outline" size="lg" class="!text-blanc !border-pierre-200/40 hover:!border-bronze">
+            {contact.telAffiche}
+          </Button>
+        </div>
+        <p class="mt-6 text-sm text-pierre-300 font-light">
+          Ou par email :
+          <a href={liens.mailto} class="text-blanc underline decoration-bronze/50 underline-offset-4 hover:decoration-bronze">{contact.email}</a>
+        </p>
+      </div>
+
+      {avecFormulaire && (
+        <div class="bg-encre-800/60 border border-pierre-600/30 rounded-sm p-6 sm:p-8" data-reveal>
+          <h3 class="text-lg font-light text-blanc mb-6">Laissez-nous vos coordonnées</h3>
+          <ContactForm light={true} />
+        </div>
+      )}
+    </div>
+  </div>
+</section>

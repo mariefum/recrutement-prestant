@@ -1,0 +1,126 @@
+/* Montserrat self-host (RGPD + perf) — graisses légères privilégiées */
+@import '@fontsource/montserrat/300.css';
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --header-h: 4.5rem;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: var(--header-h);
+  }
+
+  body {
+    @apply bg-blanc text-encre font-sans font-light antialiased;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  /* Hiérarchie typographique : on joue sur taille / graisse / interlettrage,
+     une seule police (Montserrat). Aucune serif. */
+  h1, h2, h3, h4 {
+    @apply font-light text-encre;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    @apply bg-bronze/20 text-encre;
+  }
+
+  /* Anneau de focus accessible et sobre */
+  :where(a, button, input, textarea, select, [tabindex]):focus-visible {
+    @apply outline-none ring-2 ring-bronze ring-offset-2 ring-offset-blanc rounded-sm;
+  }
+
+  img {
+    @apply max-w-full h-auto;
+  }
+}
+
+@layer components {
+  /* Conteneur de section : large respiration, mobile-first */
+  .container-prestant {
+    @apply mx-auto w-full max-w-6xl px-6 sm:px-8 lg:px-10;
+  }
+
+  /* Suréchelle de titres avec interlettrage généreux */
+  .display {
+    @apply font-light leading-[1.08] tracking-wide;
+  }
+
+  /* Surtitre minéral en capitales espacées */
+  .eyebrow {
+    @apply text-xs uppercase tracking-widest text-bronze font-medium;
+  }
+
+  /* Filet bronze fin décoratif */
+  .filet {
+    @apply h-px w-12 bg-bronze/70;
+  }
+
+  /* Lien de corps de texte */
+  .lien {
+    @apply text-encre underline decoration-bronze/40 underline-offset-4
+           transition-colors duration-300 hover:decoration-bronze;
+  }
+
+  /* Mise en forme du contenu Markdown (articles, détail offre) */
+  .prose-prestant {
+    @apply text-pierre-600 font-light leading-relaxed;
+  }
+  .prose-prestant > * + * { @apply mt-5; }
+  .prose-prestant h2 {
+    @apply mt-12 mb-0 text-2xl font-light text-encre tracking-wide;
+  }
+  .prose-prestant h3 {
+    @apply mt-8 mb-0 text-xl font-light text-encre tracking-wide;
+  }
+  .prose-prestant p { @apply text-pierre-600; }
+  .prose-prestant a { @apply lien; }
+  .prose-prestant strong { @apply font-medium text-encre; }
+  .prose-prestant ul { @apply space-y-2 pl-0; }
+  .prose-prestant ul li {
+    @apply relative pl-6 text-pierre-600;
+  }
+  .prose-prestant ul li::before {
+    content: '—';
+    @apply absolute left-0 text-bronze;
+  }
+  .prose-prestant ol {
+    @apply space-y-2 list-decimal pl-5 marker:text-bronze marker:font-normal;
+  }
+  .prose-prestant ol li { @apply text-pierre-600 pl-1; }
+}
+
+/* Respect des préférences de mouvement réduit */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Apparition au scroll (IntersectionObserver) */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] { opacity: 1; transform: none; }
+}

@@ -1,0 +1,87 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import LiteYouTube from '../components/media/LiteYouTube.astro';
+import CtaContact from '../components/blocks/CtaContact.astro';
+import { site } from '../data/site';
+import { breadcrumbSchema } from '../data/schema';
+
+const all = (await getCollection('temoignages')).sort((a, b) => a.data.ordre - b.data.ordre);
+
+// Regroupement par thème (ordre d'affichage)
+const themes = [
+  { key: 'parcours', titre: 'Des parcours qui inspirent', intro: "Reconversions, transitions, premières années : ils racontent leur chemin jusqu'à Prestant." },
+  { key: 'statut', titre: "Le statut d'agent commercial indépendant", intro: "Salarié ou indépendant ? Ce que change le statut d'agent commercial chez Prestant." },
+  { key: 'formation', titre: 'Formation & outils', intro: "Le digital, la prospection et les supports qui font la différence au quotidien." },
+  { key: 'liberte', titre: "Liberté & art de vivre", intro: "L'autonomie, l'organisation et le lifestyle d'un agent en immobilier de prestige." },
+];
+const groupes = themes
+  .map((t) => ({ ...t, videos: all.filter((v) => v.data.theme === t.key) }))
+  .filter((g) => g.videos.length > 0);
+
+// VideoObject pour chaque vidéo renseignée
+const videoSchemas = all
+  .filter((t) => t.data.youtubeId)
+  .map((t) => {
+    const id = t.data.youtubeId!;
+    const schema: Record<string, unknown> = {
+      '@context': 'https://schema.org',
+      '@type': 'VideoObject',
+      name: t.data.titre,
+      description: t.data.description,
+      thumbnailUrl: [`https://i.ytimg.com/vi/${id}/hqdefault.jpg`],
+      contentUrl: `https://www.youtube.com/shorts/${id}`,
+      embedUrl: `https://www.youtube-nocookie.com/embed/${id}`,
+      publisher: { '@type': 'Organization', name: site.nomComplet, url: site.url },
+    };
+    if (t.data.datePublication) schema.uploadDate = t.data.datePublication.toISOString().split('T')[0];
+    return schema;
+  });
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Témoignages', url: '/temoignages' },
+]);
+---
+<BaseLayout
+  title="Témoignages — agents commerciaux en immobilier de prestige"
+  description="Découvrez les témoignages vidéo des agents commerciaux Prestant : parcours et reconversions, statut indépendant, formation et liberté dans l'immobilier de prestige."
+  ogImage="og-temoignages.jpg"
+  schemas={[...videoSchemas, breadcrumb]}
+>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Témoignages</span>
+    </nav>
+    <SectionHeading
+      eyebrow="Ils ont rejoint Prestant"
+      title="Les témoignages des agents du réseau"
+      intro="Rien ne vaut la parole de celles et ceux qui vivent le métier au quotidien. Découvrez leurs parcours, leurs réussites et leur regard sur l'aventure Prestant, par thème."
+    />
+  </Section>
+
+  {groupes.map((g, gi) => (
+    <Section bg={gi % 2 === 0 ? 'blanc' : 'sable'} spacing="md">
+      <SectionHeading as="h2" eyebrow={`0${gi + 1}`} title={g.titre} intro={g.intro} />
+      <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
+        {g.videos.map((t, i) => (
+          <figure data-reveal style={`transition-delay:${i * 50}ms`}>
+            <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom} — ${t.data.titre}`} vertical={true} />
+            <figcaption class="mt-4">
+              <p class="text-[0.65rem] uppercase tracking-widest text-bronze">{t.data.secteur}</p>
+              <h3 class="mt-1.5 text-base font-light text-encre leading-snug">{t.data.titre}</h3>
+              <p class="mt-1 text-xs font-light text-pierre-500">{t.data.prenom}{t.data.nom ? ` ${t.data.nom}` : ''}</p>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </Section>
+  ))}
+
+  <CtaContact
+    titre="Envie d'écrire votre propre parcours ?"
+    intro="Rejoignez les agents Prestant et construisez votre réussite dans l'immobilier de prestige. Contactez-nous pour un premier échange."
+  />
+</BaseLayout>

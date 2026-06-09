@@ -1,0 +1,27 @@
+---
+interface Props {
+  id?: string;
+  /** Couleur de fond minérale */
+  bg?: 'blanc' | 'sable' | 'creme' | 'encre';
+  /** Marge verticale */
+  spacing?: 'md' | 'lg';
+  class?: string;
+}
+const { id, bg = 'blanc', spacing = 'lg', class: extra = '' } = Astro.props;
+
+const bgs = {
+  blanc: 'bg-blanc text-encre',
+  sable: 'bg-sable text-encre',
+  creme: 'bg-creme text-encre',
+  encre: 'bg-encre text-blanc',
+};
+const spacings = {
+  md: 'py-14 sm:py-20',
+  lg: 'py-20 sm:py-28 lg:py-32',
+};
+---
+<section id={id} class={`${bgs[bg]} ${spacings[spacing]} ${extra}`}>
+  <div class="container-prestant">
+    <slot />
+  </div>
+</section>

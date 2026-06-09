@@ -1,0 +1,100 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import CtaContact from '../../components/blocks/CtaContact.astro';
+import { site } from '../../data/site';
+import { breadcrumbSchema } from '../../data/schema';
+
+export async function getStaticPaths() {
+  const articles = await getCollection('actualites', (a) => !a.data.draft);
+  return articles.map((article) => ({ params: { slug: article.slug }, props: { article } }));
+}
+
+const { article } = Astro.props;
+const d = article.data;
+const { Content } = await article.render();
+
+const fmtDate = (date: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(date);
+
+// Articles liés (même catégorie ou récents)
+const tous = (await getCollection('actualites', (a) => !a.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const lies = tous.filter((a) => a.slug !== article.slug).slice(0, 2);
+
+// BlogPosting Schema.org
+const articleSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: d.titre,
+  description: d.description,
+  datePublished: d.date.toISOString().split('T')[0],
+  dateModified: (d.dateMaj ?? d.date).toISOString().split('T')[0],
+  author: { '@type': 'Organization', name: site.nomComplet, url: site.url },
+  publisher: {
+    '@type': 'Organization',
+    name: site.nomComplet,
+    logo: { '@type': 'ImageObject', url: new URL('/logo-prestant.png', site.url).href },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': new URL(`/actualites/${article.slug}`, site.url).href },
+  articleSection: d.categorie,
+};
+if (d.image) articleSchema.image = new URL(d.image, site.url).href;
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Actualités', url: '/actualites' },
+  { nom: d.titre, url: `/actualites/${article.slug}` },
+]);
+---
+<BaseLayout title={d.titre} description={d.description} ogImage="og-default.jpg" schemas={[articleSchema, breadcrumb]}>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span>
+      <a href="/actualites" class="hover:text-bronze">Actualités</a> <span class="mx-2">/</span>
+      <span class="text-encre">{d.categorie}</span>
+    </nav>
+    <div class="max-w-3xl">
+      <p class="eyebrow">{d.categorie} · {fmtDate(d.date)}</p>
+      <h1 class="mt-4 display text-3xl sm:text-4xl lg:text-5xl text-encre">{d.titre}</h1>
+      <p class="mt-6 text-lg font-light text-pierre-600 leading-relaxed">{d.description}</p>
+      <p class="mt-6 text-xs uppercase tracking-widest text-pierre-500">Par {d.auteur}</p>
+    </div>
+  </Section>
+
+  {d.image && (
+    <div class="container-prestant -mt-2">
+      <img src={d.image} alt={d.imageAlt ?? d.titre}
+        class="rounded-sm w-full object-cover aspect-[21/9]" loading="eager" decoding="async" />
+    </div>
+  )}
+
+  <Section bg="blanc" spacing="md">
+    <article class="max-w-prose mx-auto prose-prestant">
+      <Content />
+    </article>
+
+    {lies.length > 0 && (
+      <div class="max-w-prose mx-auto mt-16 pt-10 border-t border-pierre-200">
+        <p class="eyebrow mb-6">À lire aussi</p>
+        <ul class="space-y-4">
+          {lies.map((a) => (
+            <li>
+              <a href={`/actualites/${a.slug}`} class="group flex items-baseline justify-between gap-4">
+                <span class="font-light text-encre group-hover:text-bronze-dark transition-colors">{a.data.titre}</span>
+                <span class="text-bronze shrink-0">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+  </Section>
+
+  <CtaContact
+    titre="Prêt à rejoindre Prestant ?"
+    intro="Découvrez nos offres et déposez votre candidature, ou échangeons directement sur votre projet."
+  />
+</BaseLayout>

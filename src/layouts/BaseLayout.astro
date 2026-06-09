@@ -1,0 +1,100 @@
+---
+import '../styles/global.css';
+import { site } from '../data/site';
+import { organizationSchema } from '../data/schema';
+import BaseHead from '../components/seo/BaseHead.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import Header from '../components/layout/Header.astro';
+import Footer from '../components/layout/Footer.astro';
+import MobileContactBar from '../components/layout/MobileContactBar.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  noindex?: boolean;
+  /** Schéma(s) JSON-LD additionnels propres à la page */
+  schemas?: (Record<string, unknown> | Record<string, unknown>[])[];
+  /** Hero sombre plein écran : header transparent au départ */
+  darkHero?: boolean;
+}
+const { title, description, ogImage, noindex, schemas = [], darkHero = false } = Astro.props;
+---
+<!doctype html>
+<html lang={site.langue}>
+  <head>
+    <BaseHead title={title} description={description} ogImage={ogImage} noindex={noindex} />
+    <JsonLd schema={organizationSchema} />
+    {schemas.map((s) => <JsonLd schema={s} />)}
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <a href="#contenu" class="sr-only focus:not-sr-only focus:fixed focus:z-[60] focus:top-3 focus:left-3 focus:bg-encre focus:text-blanc focus:px-4 focus:py-2 focus:rounded-sm">
+      Aller au contenu
+    </a>
+    <Header darkHero={darkHero} />
+    <main id="contenu" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileContactBar />
+    <!-- padding bas pour ne pas masquer le contenu derrière la barre mobile -->
+    <div class="xl:hidden h-16" aria-hidden="true"></div>
+
+    <script>
+      // Apparition douce au scroll (respecte prefers-reduced-motion via CSS)
+      const els = document.querySelectorAll('[data-reveal]');
+      if (els.length) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add('is-visible');
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.12, rootMargin: '0px 0px -40px 0px' },
+        );
+        els.forEach((el) => io.observe(el));
+      }
+    </script>
+
+    <script>
+      // Soumission AJAX des formulaires (candidature + contact) vers les
+      // fonctions Vercel /api. Validation native + état accessible.
+      document.querySelectorAll<HTMLFormElement>('[data-ajax-form]').forEach((form) => {
+        const status = form.querySelector<HTMLElement>('[data-form-status]');
+        const btn = form.querySelector<HTMLButtonElement>('[type="submit"]');
+        const setStatus = (msg: string, color: string) => {
+          if (status) { status.textContent = msg; status.style.color = color; }
+        };
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          // Honeypot anti-spam
+          if ((form.querySelector('[name="_gotcha"]') as HTMLInputElement)?.value) return;
+          if (!form.checkValidity()) { form.reportValidity(); return; }
+          const original = btn?.textContent || '';
+          if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
+          setStatus('', '');
+          try {
+            const res = await fetch(form.action, {
+              method: 'POST',
+              body: new FormData(form),
+              headers: { Accept: 'application/json' },
+            });
+            if (res.ok) {
+              form.reset();
+              setStatus('Merci, votre message a bien été envoyé. Nous vous recontactons rapidement.', '#A67C52');
+            } else {
+              throw new Error('http ' + res.status);
+            }
+          } catch (err) {
+            setStatus("Une erreur est survenue. Écrivez-nous à sandy.miranda@prestant.com.", '#b04a3a');
+          } finally {
+            if (btn) { btn.disabled = false; btn.textContent = original; }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

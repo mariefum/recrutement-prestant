@@ -1,0 +1,103 @@
+# =====================================================================
+#  Configuration du back-office Sveltia CMS
+#  - Remplace "VOTRE-COMPTE/recrutement-prestant" par ton dépôt GitHub.
+#  - L'authentification passe par les fonctions /api/oauth + /api/callback
+#    (voir DEPLOIEMENT.md pour créer l'app OAuth GitHub).
+# =====================================================================
+
+backend:
+  name: github
+  repo: VOTRE-COMPTE/recrutement-prestant   # ⚠️ à remplacer (compte/repo)
+  branch: main
+  base_url: https://recrutementprestant.com
+  auth_endpoint: /api/oauth
+  commit_messages:
+    create: "Ajout {{collection}} « {{slug}} » (via CMS)"
+    update: "Mise à jour {{collection}} « {{slug}} » (via CMS)"
+    delete: "Suppression {{collection}} « {{slug}} » (via CMS)"
+    uploadMedia: "Ajout média {{path}} (via CMS)"
+    deleteMedia: "Suppression média {{path}} (via CMS)"
+
+# Permet d'éditer en local via un proxy (npx @sveltia/cms-server) pendant le dev.
+local_backend: true
+
+media_folder: "public/uploads"
+public_folder: "/uploads"
+
+locale: fr
+
+collections:
+  # ---------------- Articles / blog ----------------
+  - name: actualites
+    label: "Articles (blog)"
+    label_singular: "Article"
+    description: "Articles de conseils et actualités (SEO)."
+    folder: "src/content/actualites"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    preview_path: "actualites/{{slug}}"
+    sortable_fields: [date, titre]
+    fields:
+      - { name: titre, label: "Titre", widget: string }
+      - { name: description, label: "Description (résumé SEO, ~150 caractères)", widget: text }
+      - { name: date, label: "Date de publication", widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: dateMaj, label: "Date de mise à jour", widget: datetime, required: false, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: auteur, label: "Auteur", widget: string, default: "L’équipe Prestant" }
+      - { name: categorie, label: "Catégorie", widget: select, options: ["Conseils", "Le métier", "Rémunération", "Actualité"], default: "Conseils" }
+      - { name: image, label: "Image de couverture", widget: image, required: false }
+      - { name: imageAlt, label: "Texte alternatif de l'image", widget: string, required: false }
+      - { name: draft, label: "Brouillon (ne pas publier)", widget: boolean, default: false }
+      - { name: body, label: "Contenu de l'article", widget: markdown }
+
+  # ---------------- Témoignages vidéo ----------------
+  - name: temoignages
+    label: "Témoignages (vidéos)"
+    label_singular: "Témoignage"
+    description: "Vidéos témoignages (Shorts YouTube), regroupées par thème."
+    folder: "src/content/temoignages"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: prenom, label: "Prénom", widget: string }
+      - { name: nom, label: "Nom", widget: string, required: false }
+      - { name: role, label: "Rôle", widget: string, default: "Agent commercial Prestant" }
+      - { name: secteur, label: "Secteur", widget: string }
+      - { name: titre, label: "Titre de la vidéo", widget: string }
+      - { name: theme, label: "Thème", widget: select, options: ["parcours", "formation", "statut", "liberte"], default: "parcours" }
+      - { name: youtubeId, label: "ID YouTube (après /shorts/ ou watch?v=)", widget: string, required: false }
+      - { name: description, label: "Description", widget: text }
+      - { name: ordre, label: "Ordre d'affichage", widget: number, default: 1, value_type: int }
+      - { name: body, label: "Notes (facultatif)", widget: markdown, required: false }
+
+  # ---------------- Offres d'emploi ----------------
+  - name: offres
+    label: "Offres d'emploi"
+    label_singular: "Offre"
+    description: "Résumé d'offre + lien vers la candidature Beetween."
+    folder: "src/content/offres"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: titre, label: "Intitulé du poste", widget: string }
+      - { name: region, label: "Région", widget: string }
+      - { name: ville, label: "Ville", widget: string, required: false }
+      - { name: secteur, label: "Secteur", widget: string, default: "Immobilier résidentiel de prestige" }
+      - { name: typeContrat, label: "Type de contrat", widget: string, default: "Agent commercial indépendant" }
+      - { name: statut, label: "Statut", widget: string, default: "Indépendant / Mandataire" }
+      - { name: resume, label: "Résumé (carte + SEO)", widget: text }
+      - { name: applyUrl, label: "Lien de candidature Beetween", widget: string, required: false }
+      - { name: datePublication, label: "Date de publication", widget: datetime, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: dateValidite, label: "Date de fin de validité", widget: datetime, required: false, format: "YYYY-MM-DD", date_format: "DD/MM/YYYY", time_format: false }
+      - { name: remunerationTexte, label: "Mention rémunération", widget: string, required: false, default: "Commissionnement attractif, sans plafond" }
+      - { name: actif, label: "Offre active", widget: boolean, default: true }
+      - { name: ordre, label: "Ordre d'affichage", widget: number, default: 1, value_type: int }
+      - { name: missions, label: "Missions", widget: list }
+      - { name: profil, label: "Profil recherché", widget: list }
+      - { name: avantages, label: "Avantages", widget: list }
+      - { name: body, label: "Texte d'introduction", widget: markdown, required: false }

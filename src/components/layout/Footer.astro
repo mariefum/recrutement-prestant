@@ -1,0 +1,62 @@
+---
+import { site, contact, liens, navigation, reseaux } from '../../data/site';
+import logoBlanc from '../../assets/brand/logo-prestant-blanc.svg';
+const annee = 2026;
+---
+<footer class="bg-encre text-pierre-200">
+  <div class="container-prestant py-16 sm:py-20">
+    <div class="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr]">
+      <!-- Marque -->
+      <div>
+        <img src={logoBlanc.src} alt="Prestant Luxury Realty" width="180" height="44" class="h-9 w-auto" />
+        <p class="mt-6 max-w-sm font-light leading-relaxed text-pierre-300">
+          {site.baseline} Rejoignez un réseau d'agents commerciaux dédié à l'immobilier
+          de prestige, dans les plus belles régions de France.
+        </p>
+        <div class="filet mt-8"></div>
+      </div>
+
+      <!-- Navigation -->
+      <nav aria-label="Plan du site">
+        <h2 class="eyebrow mb-5">Naviguer</h2>
+        <ul class="space-y-3">
+          {navigation.map((item) => (
+            <li>
+              <a href={item.href} class="text-sm font-light text-pierre-200 hover:text-blanc transition-colors duration-300">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- Contact -->
+      <div>
+        <h2 class="eyebrow mb-5">Contact</h2>
+        <ul class="space-y-3 text-sm font-light">
+          <li><a href={liens.mailto} class="hover:text-blanc transition-colors">{contact.email}</a></li>
+          <li><a href={liens.tel} class="hover:text-blanc transition-colors">{contact.telAffiche}</a></li>
+          <li><a href={liens.whatsapp} target="_blank" rel="noopener" class="hover:text-blanc transition-colors">WhatsApp</a></li>
+        </ul>
+        <ul class="mt-6 flex flex-wrap gap-x-5 gap-y-2">
+          {reseaux.map((r) => (
+            <li>
+              <a href={r.url} target="_blank" rel="noopener"
+                 class="text-[0.7rem] uppercase tracking-widest text-pierre-300 hover:text-bronze transition-colors">
+                {r.nom}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-16 pt-8 border-t border-pierre-600/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.7rem] tracking-wide text-pierre-400">
+      <p>© {annee} {site.nomComplet}. Tous droits réservés.</p>
+      <ul class="flex gap-6">
+        <li><a href="https://www.prestant.com/mentions-legales/" class="hover:text-pierre-200 transition-colors">Mentions légales</a></li>
+        <li><a href="https://www.prestant.com/politique-de-confidentialite/" class="hover:text-pierre-200 transition-colors">Confidentialité</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>

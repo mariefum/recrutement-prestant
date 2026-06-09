@@ -1,0 +1,49 @@
+---
+import { formulaires } from '../../data/site';
+import Button from '../ui/Button.astro';
+
+interface Props { light?: boolean; }
+const { light = false } = Astro.props;
+const champClass = light
+  ? 'w-full bg-transparent border border-pierre-200/40 rounded-sm px-4 py-3 text-blanc font-light placeholder:text-pierre-300/60 focus:border-bronze transition-colors duration-300'
+  : 'w-full bg-blanc border border-pierre-300 rounded-sm px-4 py-3 text-encre font-light placeholder:text-pierre-400 focus:border-bronze transition-colors duration-300';
+const labelClass = light
+  ? 'block text-xs uppercase tracking-widest text-pierre-200 mb-2'
+  : 'block text-xs uppercase tracking-widest text-pierre-600 mb-2';
+const statusClass = light ? 'text-xs text-pierre-200' : 'text-xs text-pierre-500';
+---
+<form class="space-y-5" data-ajax-form action={formulaires.contactEndpoint} method="post" novalidate>
+  <input type="hidden" name="_sujet" value="Demande de contact — recrutement Prestant" />
+  <div class="hidden" aria-hidden="true">
+    <label>Ne pas remplir<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class="grid gap-5 sm:grid-cols-2">
+    <div>
+      <label class={labelClass} for="ct-nom">Nom et prénom *</label>
+      <input class={champClass} id="ct-nom" name="nom" type="text" required autocomplete="name" placeholder="Marie Dupont" />
+    </div>
+    <div>
+      <label class={labelClass} for="ct-tel">Téléphone *</label>
+      <input class={champClass} id="ct-tel" name="telephone" type="tel" required autocomplete="tel" placeholder="06 12 34 56 78" />
+    </div>
+  </div>
+  <div>
+    <label class={labelClass} for="ct-email">Email *</label>
+    <input class={champClass} id="ct-email" name="email" type="email" required autocomplete="email" placeholder="marie@exemple.com" />
+  </div>
+  <div>
+    <label class={labelClass} for="ct-msg">Votre message</label>
+    <textarea class={champClass} id="ct-msg" name="message" rows="3" placeholder="Je souhaite en savoir plus sur…"></textarea>
+  </div>
+
+  <label class={`flex items-start gap-3 ${light ? 'text-pierre-200' : 'text-pierre-600'} text-xs font-light leading-relaxed`}>
+    <input type="checkbox" name="consentement" required class="mt-0.5 accent-bronze" />
+    <span>J'accepte d'être recontacté(e) au sujet de ma demande. *</span>
+  </label>
+
+  <div class="flex flex-col sm:flex-row items-center gap-4 pt-1">
+    <Button type="submit" variant="primary" size="lg" class="w-full sm:w-auto">Être recontacté(e)</Button>
+    <p class={statusClass} data-form-status role="status" aria-live="polite"></p>
+  </div>
+</form>

@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CtaContact from '../components/blocks/CtaContact.astro';
+import Faq from '../components/blocks/Faq.astro';
+import { faqSchema, breadcrumbSchema } from '../data/schema';
+import lifestyle1 from '../assets/photos/villa-anglet-3.jpg';
+import villaG from '../assets/photos/hero-metier.jpg';
+import suite from '../assets/photos/metier-interieur.jpg';
+
+const piliers = [
+  { titre: 'Liberté', texte: "Vous êtes votre propre patron. Vous choisissez votre rythme, votre secteur et votre manière de travailler." },
+  { titre: 'Prestige', texte: "Vous évoluez parmi des biens d'exception : villas, hôtels particuliers, appartements rares." },
+  { titre: 'Clientèle haut de gamme', texte: "Vous accompagnez une clientèle exigeante, française et internationale, en quête de discrétion et d'excellence." },
+  { titre: 'Autonomie', texte: "Vous construisez votre activité et votre notoriété, soutenu par une marque et des outils premium." },
+];
+
+const faq = [
+  { question: "Qu'est-ce qu'un agent commercial en immobilier de prestige ?", reponse: "C'est un professionnel indépendant qui accompagne vendeurs et acquéreurs de biens haut de gamme : estimation, mise en valeur, négociation et suivi jusqu'à la signature. Il conjugue expertise du marché du luxe, sens du service et discrétion." },
+  { question: "Quel est le quotidien d'un agent Prestant ?", reponse: "Prospection ciblée, rendez-vous d'estimation, visites de biens d'exception, mise en valeur via des supports premium, et accompagnement personnalisé d'une clientèle exigeante. Chaque journée est différente, rythmée par les rencontres et les projets." },
+  { question: "Faut-il un diplôme particulier ?", reponse: "Le métier d'agent commercial indépendant est accessible sans diplôme spécifique. Ce sont la motivation, le sens du contact et l'accompagnement reçu qui font la réussite. Prestant vous forme et vous encadre." },
+];
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Le métier & lifestyle', url: '/metier-lifestyle' },
+]);
+---
+<BaseLayout
+  title="Devenir agent commercial indépendant en immobilier de prestige"
+  description="Le métier d'agent commercial indépendant en immobilier de prestige : liberté, biens d'exception, clientèle haut de gamme et autonomie. Découvrez le quotidien et le lifestyle d'un agent Prestant."
+  ogImage="og-metier.jpg"
+  schemas={[faqSchema(faq), breadcrumb]}
+  darkHero={true}
+>
+  <!-- Hero éditorial -->
+  <section class="relative min-h-[85svh] flex items-end overflow-hidden">
+    <Image src={villaG} alt="Salon lumineux d'un bien immobilier de prestige" widths={[640, 1024, 1600, 2000]} sizes="100vw"
+      loading="eager" fetchpriority="high" class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-t from-encre/85 via-encre/40 to-encre/30"></div>
+    <div class="container-prestant relative z-10 pb-20 pt-32">
+      <p class="text-bronze-light uppercase tracking-widest text-xs mb-6 animate-fade-up">Le métier & lifestyle</p>
+      <h1 class="display text-blanc text-4xl sm:text-6xl max-w-3xl animate-fade-up">
+        Un métier de liberté, au cœur de l'immobilier d'exception
+      </h1>
+      <p class="mt-6 max-w-xl text-pierre-100 text-lg font-light leading-relaxed animate-fade-up">
+        Devenir agent commercial indépendant chez Prestant, c'est choisir un quotidien
+        où prestige, autonomie et excellence se rencontrent.
+      </p>
+    </div>
+  </section>
+
+  <!-- Édito -->
+  <Section bg="blanc" spacing="lg">
+    <div class="max-w-prose mx-auto text-center" data-reveal>
+      <p class="eyebrow mb-6">L'esprit du métier</p>
+      <p class="text-xl sm:text-2xl font-light leading-relaxed text-encre">
+        Vendre un bien de prestige, ce n'est pas vendre une surface : c'est accompagner une
+        histoire de vie, révéler le caractère d'un lieu et tisser une relation de confiance
+        avec une clientèle qui attend l'excellence.
+      </p>
+      <div class="filet mx-auto mt-8"></div>
+    </div>
+  </Section>
+
+  <!-- Piliers -->
+  <Section bg="sable" spacing="lg">
+    <SectionHeading eyebrow="Ce qui définit le métier" title="Quatre piliers, un même art de vivre" align="center" />
+    <div class="mt-16 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-4">
+      {piliers.map((p, i) => (
+        <div class="text-center sm:text-left" data-reveal style={`transition-delay:${i * 70}ms`}>
+          <p class="display text-4xl text-bronze-light">0{i + 1}</p>
+          <div class="filet my-4 mx-auto sm:mx-0"></div>
+          <h3 class="text-lg font-medium text-encre tracking-wide">{p.titre}</h3>
+          <p class="mt-3 text-sm font-light leading-relaxed text-pierre-600">{p.texte}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Immersion images -->
+  <Section bg="blanc" spacing="lg">
+    <div class="grid gap-6 md:grid-cols-2">
+      <Image src={suite} alt="Cuisine design d'un bien immobilier de prestige" widths={[600, 1000]} sizes="(min-width:768px) 50vw, 100vw"
+        class="rounded-sm w-full object-cover aspect-[4/5]" loading="lazy" data-reveal />
+      <div class="flex flex-col justify-center" data-reveal>
+        <SectionHeading eyebrow="Le lifestyle" title="L'exigence comme art de vivre" />
+        <p class="mt-6 text-pierre-600 font-light leading-relaxed max-w-prose">
+          Les agents Prestant partagent un même goût : celui du beau, du rare et du bien fait.
+          Ce lifestyle se vit au quotidien — dans les biens que l'on visite, les clients que l'on
+          rencontre et la liberté que l'on cultive. C'est un métier où la réussite personnelle
+          se construit sans renoncer à la qualité de vie.
+        </p>
+        <div class="mt-8">
+          <a href="/temoignages" class="lien text-sm uppercase tracking-widest">Voir les témoignages des agents →</a>
+        </div>
+      </div>
+    </div>
+    <div class="mt-6">
+      <Image src={lifestyle1} alt="Art de vivre Prestant" widths={[800, 1400, 2000]} sizes="100vw"
+        class="rounded-sm w-full object-cover aspect-[21/9]" loading="lazy" data-reveal />
+    </div>
+  </Section>
+
+  <!-- FAQ -->
+  <Section bg="creme" spacing="lg">
+    <div class="max-w-3xl mx-auto">
+      <SectionHeading eyebrow="Questions fréquentes" title="Le métier en questions" align="center" />
+      <div class="mt-12"><Faq items={faq} /></div>
+    </div>
+  </Section>
+
+  <CtaContact />
+</BaseLayout>

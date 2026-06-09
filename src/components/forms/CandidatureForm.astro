@@ -1,0 +1,89 @@
+---
+import { regions, formulaires } from '../../data/site';
+import Button from '../ui/Button.astro';
+
+interface Props {
+  /** Pré-remplit le poste visé (depuis une offre) */
+  poste?: string;
+  compact?: boolean;
+}
+const { poste = '', compact = false } = Astro.props;
+const champClass =
+  'w-full bg-blanc border border-pierre-300 rounded-sm px-4 py-3 text-encre font-light ' +
+  'placeholder:text-pierre-400 focus:border-bronze transition-colors duration-300';
+const labelClass = 'block text-xs uppercase tracking-widest text-pierre-600 mb-2';
+---
+<form
+  class="space-y-5"
+  data-ajax-form
+  action={formulaires.candidatureEndpoint}
+  method="post"
+  enctype="multipart/form-data"
+  novalidate
+>
+  <input type="hidden" name="_sujet" value="Candidature — agent commercial Prestant" />
+  {poste && <input type="hidden" name="poste" value={poste} />}
+  <!-- Anti-spam honeypot (invisible) -->
+  <div class="hidden" aria-hidden="true">
+    <label>Ne pas remplir<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>
+  </div>
+
+  <div class={`grid gap-5 ${compact ? '' : 'sm:grid-cols-2'}`}>
+    <div>
+      <label class={labelClass} for="cand-nom">Nom et prénom *</label>
+      <input class={champClass} id="cand-nom" name="nom" type="text" required autocomplete="name" placeholder="Marie Dupont" />
+    </div>
+    <div>
+      <label class={labelClass} for="cand-email">Email *</label>
+      <input class={champClass} id="cand-email" name="email" type="email" required autocomplete="email" placeholder="marie@exemple.com" />
+    </div>
+    <div>
+      <label class={labelClass} for="cand-tel">Téléphone *</label>
+      <input class={champClass} id="cand-tel" name="telephone" type="tel" required autocomplete="tel" placeholder="06 12 34 56 78" />
+    </div>
+    <div>
+      <label class={labelClass} for="cand-secteur">Secteur géographique *</label>
+      <select class={champClass} id="cand-secteur" name="secteur" required>
+        <option value="" disabled selected>Sélectionnez…</option>
+        {regions.map((r) => <option value={r}>{r}</option>)}
+        <option value="Autre">Autre région</option>
+      </select>
+    </div>
+  </div>
+
+  <div>
+    <label class={labelClass} for="cand-exp">Expérience</label>
+    <select class={champClass} id="cand-exp" name="experience">
+      <option value="" disabled selected>Votre profil…</option>
+      <option>Débutant / reconversion</option>
+      <option>1 à 3 ans dans l'immobilier</option>
+      <option>3 à 7 ans dans l'immobilier</option>
+      <option>7 ans et plus / immobilier de prestige</option>
+    </select>
+  </div>
+
+  <div>
+    <label class={labelClass} for="cand-msg">Message</label>
+    <textarea class={champClass} id="cand-msg" name="message" rows="4"
+      placeholder="Parlez-nous de votre parcours et de vos ambitions…"></textarea>
+  </div>
+
+  <div>
+    <label class={labelClass} for="cand-cv">CV (PDF, DOC — 8 Mo max)</label>
+    <input
+      class="w-full text-sm text-pierre-600 font-light file:mr-4 file:rounded-sm file:border-0 file:bg-encre file:text-blanc file:px-5 file:py-2.5 file:text-xs file:uppercase file:tracking-widest file:cursor-pointer hover:file:bg-encre-700 transition-colors"
+      id="cand-cv" name="cv" type="file" accept=".pdf,.doc,.docx" />
+  </div>
+
+  <label class="flex items-start gap-3 text-xs text-pierre-600 font-light leading-relaxed">
+    <input type="checkbox" name="consentement" required class="mt-0.5 accent-bronze" />
+    <span>J'accepte que mes données soient traitées pour l'étude de ma candidature, conformément à la <a href="https://www.prestant.com/politique-de-confidentialite/" class="lien">politique de confidentialité</a>. *</span>
+  </label>
+
+  <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+    <Button type="submit" variant="primary" size="lg" class="w-full sm:w-auto">
+      Envoyer ma candidature
+    </Button>
+    <p class="text-xs text-pierre-500" data-form-status role="status" aria-live="polite"></p>
+  </div>
+</form>

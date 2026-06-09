@@ -1,0 +1,171 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import Button from '../../components/ui/Button.astro';
+import { site, contact } from '../../data/site';
+import { breadcrumbSchema } from '../../data/schema';
+
+export async function getStaticPaths() {
+  const offres = await getCollection('offres');
+  return offres.map((offre) => ({ params: { slug: offre.slug }, props: { offre } }));
+}
+
+const { offre } = Astro.props;
+const d = offre.data;
+const { Content } = await offre.render();
+
+// --- JobPosting Schema.org ---
+const jobSchema: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'JobPosting',
+  title: d.titre,
+  description: `${d.resume} ${d.missions.join(' ')}`,
+  datePosted: d.datePublication.toISOString().split('T')[0],
+  employmentType: 'CONTRACTOR',
+  hiringOrganization: {
+    '@type': 'Organization',
+    name: site.nomComplet,
+    sameAs: site.url,
+  },
+  jobLocation: {
+    '@type': 'Place',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: d.ville ?? d.region,
+      addressRegion: d.region,
+      addressCountry: 'FR',
+    },
+  },
+  industry: d.secteur,
+  directApply: true,
+};
+if (d.dateValidite) jobSchema.validThrough = d.dateValidite.toISOString().split('T')[0];
+if (d.remunerationTexte) {
+  jobSchema.baseSalary = {
+    '@type': 'MonetaryAmount',
+    currency: 'EUR',
+    value: { '@type': 'QuantitativeValue', value: d.remunerationTexte, unitText: 'COMMISSION' },
+  };
+}
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Offres d’emploi', url: '/offres-emploi' },
+  { nom: d.titre, url: `/offres-emploi/${offre.slug}` },
+]);
+---
+<BaseLayout
+  title={d.titre}
+  description={d.resume}
+  ogImage="og-offres.jpg"
+  schemas={[jobSchema, breadcrumb]}
+>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span>
+      <a href="/offres-emploi" class="hover:text-bronze">Offres</a> <span class="mx-2">/</span>
+      <span class="text-encre">{d.region}</span>
+    </nav>
+    <p class="eyebrow mb-4">{d.region}{d.ville ? ` — ${d.ville}` : ''}</p>
+    <h1 class="display text-3xl sm:text-4xl lg:text-5xl text-encre max-w-3xl">{d.titre}</h1>
+    <div class="mt-6 flex flex-wrap gap-3">
+      <span class="text-xs uppercase tracking-widest text-pierre-600 border border-pierre-300 rounded-full px-4 py-1.5">{d.statut}</span>
+      <span class="text-xs uppercase tracking-widest text-pierre-600 border border-pierre-300 rounded-full px-4 py-1.5">{d.typeContrat}</span>
+      {d.remunerationTexte && <span class="text-xs uppercase tracking-widest text-bronze border border-bronze/40 rounded-full px-4 py-1.5">{d.remunerationTexte}</span>}
+    </div>
+  </Section>
+
+  <Section bg="blanc" spacing="md">
+    <div class="grid gap-12 lg:grid-cols-[1.6fr_1fr] lg:items-start">
+      <!-- Contenu de l'offre -->
+      <div class="max-w-prose">
+        <div class="prose-prestant text-pierre-600 font-light leading-relaxed">
+          <Content />
+        </div>
+
+        {d.missions.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-xl font-medium text-encre tracking-wide">Vos missions</h2>
+            <div class="filet mt-4 mb-6"></div>
+            <ul class="space-y-3">
+              {d.missions.map((m) => (
+                <li class="flex gap-3 text-pierre-600 font-light"><span class="text-bronze mt-1">—</span><span>{m}</span></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {d.profil.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-xl font-medium text-encre tracking-wide">Le profil recherché</h2>
+            <div class="filet mt-4 mb-6"></div>
+            <ul class="space-y-3">
+              {d.profil.map((p) => (
+                <li class="flex gap-3 text-pierre-600 font-light"><span class="text-bronze mt-1">—</span><span>{p}</span></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {d.avantages.length > 0 && (
+          <div class="mt-12">
+            <h2 class="text-xl font-medium text-encre tracking-wide">Ce que Prestant vous apporte</h2>
+            <div class="filet mt-4 mb-6"></div>
+            <ul class="space-y-3">
+              {d.avantages.map((a) => (
+                <li class="flex gap-3 text-pierre-600 font-light"><span class="text-bronze mt-1">—</span><span>{a}</span></li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+
+      <!-- Encart latéral sticky -->
+      <aside class="lg:sticky lg:top-28">
+        <div class="bg-sable rounded-sm p-7 border border-pierre-200">
+          <h2 class="text-lg font-light text-encre">Candidater à cette offre</h2>
+          <div class="filet mt-4 mb-6"></div>
+          <dl class="space-y-3 text-sm font-light">
+            <div class="flex justify-between gap-4"><dt class="text-pierre-500">Région</dt><dd class="text-encre text-right">{d.region}</dd></div>
+            {d.ville && <div class="flex justify-between gap-4"><dt class="text-pierre-500">Ville</dt><dd class="text-encre text-right">{d.ville}</dd></div>}
+            <div class="flex justify-between gap-4"><dt class="text-pierre-500">Statut</dt><dd class="text-encre text-right">{d.statut}</dd></div>
+            <div class="flex justify-between gap-4"><dt class="text-pierre-500">Secteur</dt><dd class="text-encre text-right">{d.secteur}</dd></div>
+          </dl>
+          <div class="mt-6 flex flex-col gap-3">
+            {d.applyUrl
+              ? <Button href={d.applyUrl} variant="primary" class="w-full" target="_blank" rel="noopener">Postuler en ligne</Button>
+              : <Button href="#postuler" variant="primary" class="w-full">Postuler</Button>}
+            <Button href={`mailto:${contact.email}?subject=${encodeURIComponent('Candidature — ' + d.titre)}`} variant="outline" class="w-full">Candidater par email</Button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </Section>
+
+  <!-- Candidature via l'ATS Beetween -->
+  <Section id="postuler" bg="encre" spacing="lg">
+    <div class="max-w-2xl mx-auto text-center">
+      <p class="eyebrow mb-4">Candidater</p>
+      <h2 class="display text-3xl sm:text-4xl text-blanc">Postulez en quelques minutes</h2>
+      <div class="filet mx-auto mt-6 mb-6"></div>
+      <p class="text-pierre-200 font-light leading-relaxed">
+        Votre candidature pour le poste <strong class="text-blanc font-medium">« {d.titre} »</strong>
+        se fait sur notre espace recrutement sécurisé. Déposez votre CV en ligne&nbsp;: nous revenons
+        vers vous rapidement.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+        {d.applyUrl && (
+          <Button href={d.applyUrl} variant="primary" size="lg" target="_blank" rel="noopener">
+            Déposer ma candidature
+          </Button>
+        )}
+        <Button href="/offres-emploi#candidater" variant="outline" size="lg"
+          class="!text-blanc !border-pierre-200/40 hover:!border-bronze">
+          Candidature spontanée
+        </Button>
+      </div>
+      <p class="mt-6 text-xs text-pierre-300">Vous serez redirigé vers notre outil de recrutement Beetween.</p>
+    </div>
+  </Section>
+</BaseLayout>

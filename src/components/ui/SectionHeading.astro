@@ -1,0 +1,25 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  intro?: string;
+  align?: 'left' | 'center';
+  light?: boolean; // sur fond sombre
+  as?: 'h2' | 'h3';
+}
+const { eyebrow, title, intro, align = 'left', light = false, as: Tag = 'h2' } = Astro.props;
+const alignCls = align === 'center' ? 'text-center mx-auto items-center' : 'items-start';
+const filetCls = align === 'center' ? 'mx-auto' : '';
+---
+<header class={`flex flex-col ${alignCls} max-w-3xl ${align === 'center' ? 'mx-auto' : ''}`} data-reveal>
+  {eyebrow && <p class="eyebrow mb-4">{eyebrow}</p>}
+  <Tag class={`display text-3xl sm:text-4xl lg:text-[2.75rem] ${light ? 'text-blanc' : 'text-encre'}`}>
+    {title}
+  </Tag>
+  <div class={`filet mt-6 ${filetCls}`}></div>
+  {intro && (
+    <p class={`mt-6 text-base sm:text-lg font-light leading-relaxed ${light ? 'text-pierre-200' : 'text-pierre-600'} ${align === 'center' ? 'max-w-2xl' : 'max-w-prose'}`}>
+      {intro}
+    </p>
+  )}
+</header>

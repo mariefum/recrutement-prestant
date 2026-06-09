@@ -1,0 +1,78 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CtaContact from '../../components/blocks/CtaContact.astro';
+import { breadcrumbSchema } from '../../data/schema';
+
+const articles = (await getCollection('actualites', (a) => !a.data.draft)).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const [une, ...autres] = articles;
+
+const fmtDate = (d: Date) =>
+  new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' }).format(d);
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Actualités', url: '/actualites' },
+]);
+---
+<BaseLayout
+  title="Actualités & conseils — immobilier de prestige"
+  description="Conseils et actualités sur le métier d'agent commercial en immobilier de luxe : devenir mandataire, rémunération, reconversion, formation. Le regard de Prestant Luxury Realty."
+  ogImage="og-default.jpg"
+  schemas={[breadcrumb]}
+>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Actualités</span>
+    </nav>
+    <SectionHeading
+      eyebrow="Actualités & conseils"
+      title="Le métier de l'immobilier de prestige décrypté"
+      intro="Conseils pratiques, éclairages sur le métier, la rémunération et la reconversion : nos articles pour mieux comprendre l'univers de l'agent commercial en immobilier de luxe."
+    />
+  </Section>
+
+  <Section bg="blanc" spacing="lg">
+    {une && (
+      <a href={`/actualites/${une.slug}`} class="group grid gap-8 lg:grid-cols-2 lg:items-center mb-16" data-reveal>
+        {une.data.image && (
+          <img src={une.data.image} alt={une.data.imageAlt ?? une.data.titre}
+            class="rounded-sm w-full object-cover aspect-[16/10]" loading="lazy" decoding="async" />
+        )}
+        <div>
+          <p class="eyebrow">{une.data.categorie} · {fmtDate(une.data.date)}</p>
+          <h2 class="mt-4 display text-2xl sm:text-3xl text-encre leading-snug group-hover:text-bronze-dark transition-colors">{une.data.titre}</h2>
+          <p class="mt-4 text-pierre-600 font-light leading-relaxed">{une.data.description}</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-bronze">
+            Lire l'article <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </span>
+        </div>
+      </a>
+    )}
+
+    {autres.length > 0 && (
+      <div class="grid gap-x-8 gap-y-12 md:grid-cols-2 lg:grid-cols-3 border-t border-pierre-200 pt-16">
+        {autres.map((a, i) => (
+          <a href={`/actualites/${a.slug}`} class="group flex flex-col" data-reveal style={`transition-delay:${i * 70}ms`}>
+            {a.data.image && (
+              <img src={a.data.image} alt={a.data.imageAlt ?? a.data.titre}
+                class="rounded-sm w-full object-cover aspect-[3/2] mb-5" loading="lazy" decoding="async" />
+            )}
+            <p class="eyebrow">{a.data.categorie} · {fmtDate(a.data.date)}</p>
+            <h3 class="mt-3 text-lg font-light text-encre leading-snug group-hover:text-bronze-dark transition-colors">{a.data.titre}</h3>
+            <p class="mt-3 text-sm font-light text-pierre-600 leading-relaxed line-clamp-3 flex-1">{a.data.description}</p>
+            <span class="mt-4 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-bronze">
+              Lire <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+            </span>
+          </a>
+        ))}
+      </div>
+    )}
+  </Section>
+
+  <CtaContact avecFormulaire={false} />
+</BaseLayout>

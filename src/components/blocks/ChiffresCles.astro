@@ -1,0 +1,18 @@
+---
+import { chiffres } from '../../data/site';
+interface Props { light?: boolean; }
+const { light = false } = Astro.props;
+---
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+  {chiffres.map((c, i) => (
+    <div class="text-center" data-reveal style={`transition-delay:${i * 80}ms`}>
+      <p class={`display text-5xl sm:text-6xl ${light ? 'text-blanc' : 'text-encre'}`}>
+        {c.valeur}<span class="text-bronze text-2xl sm:text-3xl align-top ml-1 font-light">{c.suffixe}</span>
+      </p>
+      <div class="filet mx-auto my-4"></div>
+      <p class={`text-sm font-light leading-snug max-w-[16ch] mx-auto ${light ? 'text-pierre-200' : 'text-pierre-600'}`}>
+        {c.label}
+      </p>
+    </div>
+  ))}
+</div>

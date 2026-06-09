@@ -1,0 +1,18 @@
+---
+import { liens } from '../../data/site';
+---
+<!-- Barre d'action fixe, mobile uniquement. Toujours accessible au pouce. -->
+<div class="xl:hidden fixed bottom-0 inset-x-0 z-40 grid grid-cols-3 bg-encre/95 backdrop-blur-sm border-t border-bronze/30 pb-[env(safe-area-inset-bottom)]">
+  <a href="#candidater" class="flex flex-col items-center justify-center gap-1 py-2.5 text-blanc">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+    <span class="text-[0.6rem] uppercase tracking-widest">Candidater</span>
+  </a>
+  <a href={liens.tel} class="flex flex-col items-center justify-center gap-1 py-2.5 text-blanc border-x border-bronze/20">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92Z"/></svg>
+    <span class="text-[0.6rem] uppercase tracking-widest">Appeler</span>
+  </a>
+  <a href={liens.whatsapp} target="_blank" rel="noopener" class="flex flex-col items-center justify-center gap-1 py-2.5 text-blanc">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.2-1.7-.8-2-.9-.3-.1-.5-.2-.6.2-.2.3-.7.9-.8 1-.2.2-.3.2-.6 0-.3-.2-1.2-.5-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6l.5-.5c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.2-.6-1.5-.9-2-.2-.5-.4-.5-.6-.5h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 1.9 2.9 4.6 4 .6.3 1.1.4 1.5.6.6.2 1.2.2 1.6.1.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.1-1.2 0-.1-.2-.2-.5-.3Z"/><path d="M12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-2.9.9.9-2.8-.2-.3A8.2 8.2 0 1 1 12 20.2Z"/></svg>
+    <span class="text-[0.6rem] uppercase tracking-widest">WhatsApp</span>
+  </a>
+</div>

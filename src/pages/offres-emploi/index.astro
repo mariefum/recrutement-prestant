@@ -1,0 +1,111 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Section from '../../components/ui/Section.astro';
+import SectionHeading from '../../components/ui/SectionHeading.astro';
+import CandidatureForm from '../../components/forms/CandidatureForm.astro';
+import CtaContact from '../../components/blocks/CtaContact.astro';
+import { breadcrumbSchema } from '../../data/schema';
+
+const offres = (await getCollection('offres', (o) => o.data.actif)).sort(
+  (a, b) => a.data.ordre - b.data.ordre,
+);
+const regions = [...new Set(offres.map((o) => o.data.region))];
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Offres d’emploi', url: '/offres-emploi' },
+]);
+---
+<BaseLayout
+  title="Offres d'emploi — agent commercial immobilier de prestige"
+  description="Découvrez les offres d'emploi Prestant : devenez agent commercial indépendant en immobilier de luxe au Pays Basque, sur la Côte d'Azur, à Paris et dans les plus belles régions. Candidature spontanée possible."
+  ogImage="og-offres.jpg"
+  schemas={[breadcrumb]}
+>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Offres d'emploi</span>
+    </nav>
+    <SectionHeading
+      eyebrow="Rejoindre le réseau"
+      title="Offres d'emploi — agent commercial en immobilier de prestige"
+      intro="Prestant recrute des agents commerciaux indépendants dans les plus belles régions de France. Filtrez par région et découvrez le poste qui vous correspond — ou déposez une candidature spontanée."
+    />
+  </Section>
+
+  <Section bg="blanc" spacing="md">
+    <!-- Filtres -->
+    <div class="flex flex-wrap items-center gap-3 mb-10" role="group" aria-label="Filtrer par région">
+      <button type="button" class="filtre-btn is-active" data-filtre="all">Toutes les régions</button>
+      {regions.map((r) => (
+        <button type="button" class="filtre-btn" data-filtre={r}>{r}</button>
+      ))}
+    </div>
+
+    <!-- Grille d'offres -->
+    <div class="grid gap-6 md:grid-cols-2" data-offres>
+      {offres.map((o) => (
+        <article class="offre-card group flex flex-col bg-sable rounded-sm p-7 border border-transparent hover:border-bronze/40 transition-all duration-300" data-region={o.data.region}>
+          <div class="flex items-center justify-between gap-3">
+            <p class="eyebrow">{o.data.region}</p>
+            <span class="text-[0.65rem] uppercase tracking-widest text-pierre-500 border border-pierre-300 rounded-full px-3 py-1">{o.data.statut}</span>
+          </div>
+          <h2 class="mt-4 text-xl font-light text-encre leading-snug">
+            <a href={`/offres-emploi/${o.slug}`} class="hover:text-bronze-dark transition-colors after:absolute after:inset-0 relative">{o.data.titre}</a>
+          </h2>
+          <p class="mt-4 text-sm font-light text-pierre-600 leading-relaxed flex-1">{o.data.resume}</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-bronze">
+            Voir l'offre <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </span>
+        </article>
+      ))}
+    </div>
+    <p class="mt-8 text-sm text-pierre-500 font-light hidden" data-empty>Aucune offre pour cette région pour le moment — pensez à la candidature spontanée ci-dessous.</p>
+  </Section>
+
+  <!-- Candidature spontanée -->
+  <Section id="candidater" bg="creme" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-start">
+      <div data-reveal>
+        <SectionHeading
+          eyebrow="Candidature spontanée"
+          title="Aucune offre ne correspond ? Écrivez-nous."
+          intro="Nous étudions tous les profils motivés, confirmés comme en reconversion. Déposez votre candidature : nous revenons vers vous rapidement."
+        />
+      </div>
+      <div class="bg-blanc rounded-sm p-6 sm:p-8 border border-pierre-200" data-reveal>
+        <CandidatureForm />
+      </div>
+    </div>
+  </Section>
+
+  <CtaContact avecFormulaire={false} />
+</BaseLayout>
+
+<style>
+  .filtre-btn {
+    @apply text-xs uppercase tracking-widest px-5 py-2.5 rounded-full border border-pierre-300 text-pierre-600 transition-all duration-300;
+  }
+  .filtre-btn:hover { @apply border-bronze/60 text-encre; }
+  .filtre-btn.is-active { @apply bg-encre text-blanc border-encre; }
+</style>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.filtre-btn');
+  const cards = document.querySelectorAll<HTMLElement>('.offre-card');
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const f = btn.dataset.filtre;
+      btns.forEach((b) => b.classList.toggle('is-active', b === btn));
+      let visible = 0;
+      cards.forEach((c) => {
+        const show = f === 'all' || c.dataset.region === f;
+        c.style.display = show ? '' : 'none';
+        if (show) visible++;
+      });
+      empty?.classList.toggle('hidden', visible !== 0);
+    });
+  });
+</script>

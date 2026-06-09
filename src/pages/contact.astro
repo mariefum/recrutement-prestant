@@ -1,0 +1,70 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import CandidatureForm from '../components/forms/CandidatureForm.astro';
+import { contact, liens, reseaux } from '../data/site';
+import { breadcrumbSchema } from '../data/schema';
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Contact', url: '/contact' },
+]);
+
+const canaux = [
+  { label: 'WhatsApp', valeur: contact.whatsappAffiche, href: liens.whatsapp, externe: true, note: 'Réponse rapide' },
+  { label: 'Téléphone', valeur: contact.telAffiche, href: liens.tel, externe: false, note: 'Du lundi au vendredi' },
+  { label: 'Email', valeur: contact.email, href: liens.mailto, externe: false, note: 'Réponse sous 48 h' },
+];
+---
+<BaseLayout
+  title="Contact — rejoindre Prestant Luxury Realty"
+  description="Contactez Prestant pour rejoindre le réseau d'agents commerciaux en immobilier de prestige : WhatsApp, téléphone, email ou candidature en ligne avec CV."
+  ogImage="og-contact.jpg"
+  schemas={[breadcrumb]}
+>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Contact</span>
+    </nav>
+    <SectionHeading
+      eyebrow="Parlons de votre projet"
+      title="Contactez Prestant"
+      intro="Un projet de reconversion, une envie d'indépendance ou simplement des questions ? Choisissez le canal qui vous convient — nous vous répondons avec attention."
+    />
+  </Section>
+
+  <Section bg="blanc" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-start">
+      <!-- Canaux de contact -->
+      <div class="space-y-4" data-reveal>
+        {canaux.map((c) => (
+          <a href={c.href} {...(c.externe ? { target: '_blank', rel: 'noopener' } : {})}
+             class="group flex items-center justify-between gap-4 bg-sable rounded-sm p-6 border border-transparent hover:border-bronze/40 transition-all duration-300">
+            <div>
+              <p class="eyebrow">{c.label}</p>
+              <p class="mt-2 text-lg font-light text-encre group-hover:text-bronze-dark transition-colors">{c.valeur}</p>
+              <p class="mt-1 text-xs font-light text-pierre-500">{c.note}</p>
+            </div>
+            <span class="text-bronze transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </a>
+        ))}
+        <div class="pt-4">
+          <p class="eyebrow mb-3">Nous suivre</p>
+          <ul class="flex flex-wrap gap-x-5 gap-y-2">
+            {reseaux.map((r) => (
+              <li><a href={r.url} target="_blank" rel="noopener" class="text-xs uppercase tracking-widest text-pierre-500 hover:text-bronze transition-colors">{r.nom}</a></li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <!-- Formulaire complet -->
+      <div class="bg-creme rounded-sm p-6 sm:p-8 border border-pierre-200" data-reveal>
+        <h2 class="text-xl font-light text-encre">Écrivez-nous / candidatez</h2>
+        <div class="filet mt-4 mb-8"></div>
+        <CandidatureForm />
+      </div>
+    </div>
+  </Section>
+</BaseLayout>

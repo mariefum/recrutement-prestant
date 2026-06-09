@@ -1,0 +1,223 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import ChiffresCles from '../components/blocks/ChiffresCles.astro';
+import Faq from '../components/blocks/Faq.astro';
+import CtaContact from '../components/blocks/CtaContact.astro';
+import LiteYouTube from '../components/media/LiteYouTube.astro';
+import { liens } from '../data/site';
+import { faqSchema } from '../data/schema';
+
+import heroImg from '../assets/photos/hero-accueil.jpg';
+import salon from '../assets/photos/villa-guethary-1.jpg';
+import villa from '../assets/photos/villa-guethary-2.jpg';
+
+// Offres mises en avant
+const offres = (await getCollection('offres', (o) => o.data.actif))
+  .sort((a, b) => a.data.ordre - b.data.ordre)
+  .slice(0, 3);
+// Témoignage en avant
+const temoignages = (await getCollection('temoignages')).sort((a, b) => a.data.ordre - b.data.ordre);
+// 3 témoignages mis en avant, d'agents différents (variété visuelle).
+const temoinsPhares = [];
+const vus = new Set<string>();
+for (const t of temoignages) {
+  if (vus.has(t.data.prenom)) continue;
+  vus.add(t.data.prenom);
+  temoinsPhares.push(t);
+  if (temoinsPhares.length === 3) break;
+}
+
+const avantages = [
+  { titre: 'Une marque de prestige', texte: "Une identité premium reconnue sur le marché du luxe, des supports marketing haut de gamme et une vraie crédibilité auprès d'une clientèle exigeante." },
+  { titre: 'Liberté assistée', texte: "Le statut indépendant et la liberté d'organisation, sans la solitude : accompagnement juridique, référent dédié et collectif à taille humaine." },
+  { titre: 'Outils performants', texte: "CRM immobilier avancé, diffusion premium multi-portails et stratégies off-market pour capter et vendre les plus beaux biens." },
+  { titre: 'Rémunération sans plafond', texte: "Un commissionnement attractif au statut indépendant : vos revenus reflètent votre engagement, sans limite imposée." },
+];
+
+const faq = [
+  { question: "Faut-il déjà avoir de l'expérience en immobilier ?", reponse: "Non. Nous accueillons des profils confirmés comme des personnes en reconversion. Notre parcours de formation et notre accompagnement sont conçus pour faire réussir les motivés, quel que soit leur point de départ." },
+  { question: 'Quel est le statut proposé ?', reponse: "Vous exercez en tant qu'agent commercial indépendant (mandataire). Vous gardez votre liberté d'organisation tout en bénéficiant de la marque, des outils et de l'accompagnement Prestant." },
+  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez 30 % sur la rentrée d'un mandat simple, 40 % sur un mandat exclusif et 20 % à la vente (cumulables), plus une prime de 15 000 € dès 100 000 € de CA et la cooptation. Le détail et des exemples chiffrés sont sur la page Rémunération." },
+  { question: 'Dans quelles régions recrutez-vous ?', reponse: "Nous développons le réseau dans cinq des plus belles régions de France : Pays Basque, Côte d'Azur, Paris & Île-de-France, Alpes et Provence. D'autres secteurs sont étudiés selon les profils." },
+];
+---
+<BaseLayout
+  title="Recrutement agent commercial immobilier de prestige | Prestant Luxury Realty"
+  description="Devenez agent commercial indépendant en immobilier de prestige avec Prestant. Marque premium, outils performants, formation et rémunération non plafonnée. Rejoignez le réseau."
+  ogImage="og-accueil.jpg"
+  schemas={[faqSchema(faq)]}
+  darkHero={true}
+>
+  <!-- ===================== HERO ===================== -->
+  <section class="relative min-h-[100svh] flex items-center overflow-hidden">
+    <Image src={heroImg} alt="Intérieur d'un bien immobilier de prestige" widths={[640, 1024, 1600, 2000]}
+      sizes="100vw" loading="eager" fetchpriority="high"
+      class="absolute inset-0 h-full w-full object-cover" />
+    <div class="absolute inset-0 bg-gradient-to-b from-encre/70 via-encre/50 to-encre/80"></div>
+
+    <div class="container-prestant relative z-10 pt-24 pb-28">
+      <div class="max-w-3xl animate-fade-up">
+        <p class="text-bronze-light uppercase tracking-widest text-xs sm:text-sm mb-6">
+          Prestant Luxury Realty — Recrutement
+        </p>
+        <h1 class="display text-blanc text-4xl sm:text-6xl lg:text-7xl">
+          Rejoignez le réseau de l'immobilier de prestige
+        </h1>
+        <p class="mt-8 max-w-xl text-pierre-100 text-lg sm:text-xl font-light leading-relaxed">
+          Devenez agent commercial indépendant et bâtissez une activité d'exception,
+          avec la liberté du statut indépendant et la force d'une marque premium.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
+          <Button href="#candidater" variant="primary" size="lg">Candidater</Button>
+          <Button href={liens.whatsapp} variant="outline" size="lg"
+            class="!text-blanc !border-pierre-100/50 hover:!border-bronze hover:!bg-bronze/10">
+            Échanger sur WhatsApp
+          </Button>
+        </div>
+      </div>
+    </div>
+
+    <a href="#preuves" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-blanc/70 hover:text-blanc transition-colors hidden sm:block" aria-label="Découvrir">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="animate-bounce"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
+    </a>
+  </section>
+
+  <!-- ===================== PREUVES / CHIFFRES ===================== -->
+  <Section id="preuves" bg="sable" spacing="lg">
+    <SectionHeading
+      eyebrow="Prestant en chiffres"
+      title="Une maison du prestige à taille humaine"
+      intro="25 ans d'expertise dans l'immobilier de luxe, une marque construite depuis 10 ans et un réseau de talents répartis dans les plus belles régions de France."
+      align="center"
+    />
+    <div class="mt-16">
+      <ChiffresCles />
+    </div>
+  </Section>
+
+  <!-- ===================== POURQUOI PRESTANT ===================== -->
+  <Section bg="blanc" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
+      <div class="order-2 lg:order-1 grid grid-cols-2 gap-4 items-start" data-reveal>
+        <Image src={salon} alt="Intérieur design d'un bien de prestige au Pays Basque" widths={[400, 800]} sizes="(min-width:1024px) 25vw, 50vw"
+          class="rounded-sm w-full object-cover aspect-[3/4]" loading="lazy" />
+        <Image src={villa} alt="Salon d'une villa de prestige" widths={[400, 800]} sizes="(min-width:1024px) 25vw, 50vw"
+          class="rounded-sm w-full object-cover aspect-[3/4]" loading="lazy" />
+      </div>
+      <div class="order-1 lg:order-2">
+        <SectionHeading
+          eyebrow="Pourquoi nous rejoindre"
+          title="La liberté de l'indépendant, la force d'un réseau"
+          intro="Prestant réunit ce qui fait la réussite d'un agent en immobilier de prestige : une marque crédible, des outils premium et un accompagnement de proximité."
+        />
+        <div class="mt-10 grid sm:grid-cols-2 gap-x-8 gap-y-8">
+          {avantages.map((a, i) => (
+            <div data-reveal style={`transition-delay:${i * 70}ms`}>
+              <div class="filet mb-4"></div>
+              <h3 class="text-lg font-medium text-encre tracking-wide">{a.titre}</h3>
+              <p class="mt-3 text-sm font-light leading-relaxed text-pierre-600">{a.texte}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-10">
+          <Button href="/metier-lifestyle" variant="ghost" class="-ml-6">Découvrir le métier →</Button>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ===================== APERÇU RÉMUNÉRATION ===================== -->
+  <Section bg="encre" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div data-reveal>
+        <p class="eyebrow mb-4">Rémunération</p>
+        <h2 class="display text-3xl sm:text-4xl text-blanc">
+          Des revenus à la hauteur de votre ambition
+        </h2>
+        <div class="filet mt-6"></div>
+        <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
+          Au statut d'agent commercial indépendant, vous êtes rémunéré à chaque étape — rentrée
+          de mandat et vente — avec un commissionnement clair, une prime de performance et la
+          cooptation. Le tout sans plafond de revenus.
+        </p>
+        <div class="mt-8">
+          <Button href="/remuneration" variant="primary">Voir la grille de rémunération</Button>
+        </div>
+      </div>
+      <div class="grid grid-cols-3 gap-4" data-reveal>
+        {[
+          { v: '30–40%', l: 'sur la rentrée de mandat (simple / exclusif)' },
+          { v: '20%', l: 'à la vente, cumulable' },
+          { v: '+15 000€', l: 'de prime dès 100 000€ de CA' },
+        ].map((c) => (
+          <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-5 text-center">
+            <p class="text-bronze-light text-2xl font-light">{c.v}</p>
+            <p class="mt-2 text-xs text-pierre-300 font-light leading-snug">{c.l}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ===================== TÉMOIGNAGE EN AVANT ===================== -->
+  <Section bg="sable" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div class="grid grid-cols-3 gap-3 sm:gap-4" data-reveal>
+        {temoinsPhares.map((t) => (
+          <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom} — ${t.data.titre}`} vertical={true} />
+        ))}
+      </div>
+      <div data-reveal>
+        <SectionHeading
+          eyebrow="Ils ont rejoint Prestant"
+          title="Des parcours qui parlent mieux que nous"
+          intro="Reconversions réussies, passages à l'indépendance, montée en puissance grâce au digital : découvrez les témoignages des agents du réseau."
+        />
+        <div class="mt-8">
+          <Button href="/temoignages" variant="outline">Voir tous les témoignages</Button>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ===================== OFFRES DU MOMENT ===================== -->
+  <Section bg="blanc" spacing="lg">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-12">
+      <SectionHeading
+        eyebrow="Opportunités"
+        title="Les offres du moment"
+        intro="Nous recrutons dans les plus belles régions de France. Trouvez le secteur qui vous correspond."
+      />
+      <div class="shrink-0"><Button href="/offres-emploi" variant="ghost">Toutes les offres →</Button></div>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      {offres.map((o, i) => (
+        <a href={`/offres-emploi/${o.slug}`} class="group block bg-sable rounded-sm p-7 border border-transparent hover:border-bronze/40 transition-all duration-300 hover:-translate-y-1" data-reveal style={`transition-delay:${i * 70}ms`}>
+          <p class="eyebrow">{o.data.region}</p>
+          <h3 class="mt-4 text-xl font-light text-encre leading-snug group-hover:text-bronze-dark transition-colors">{o.data.titre}</h3>
+          <p class="mt-4 text-sm font-light text-pierre-600 leading-relaxed line-clamp-3">{o.data.resume}</p>
+          <span class="mt-6 inline-flex items-center gap-2 text-xs uppercase tracking-widest text-bronze">
+            Voir l'offre
+            <span class="transition-transform duration-300 group-hover:translate-x-1">→</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <!-- ===================== FAQ ===================== -->
+  <Section bg="creme" spacing="lg">
+    <div class="max-w-3xl mx-auto">
+      <SectionHeading eyebrow="Questions fréquentes" title="Tout savoir avant de candidater" align="center" />
+      <div class="mt-12"><Faq items={faq} /></div>
+    </div>
+  </Section>
+
+  <!-- ===================== CTA FINAL ===================== -->
+  <CtaContact id="candidater" />
+</BaseLayout>

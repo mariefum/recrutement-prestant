@@ -1,0 +1,175 @@
+---
+import { navigation, liens } from '../../data/site';
+import logoBlanc from '../../assets/brand/logo-prestant-mot-blanc.svg';
+import logoBleu from '../../assets/brand/logo-prestant-mot-bleu.svg';
+
+interface Props {
+  /** true sur les pages avec un hero sombre plein écran (accueil, métier) :
+      le header démarre transparent puis devient opaque au scroll. */
+  darkHero?: boolean;
+}
+const { darkHero = false } = Astro.props;
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path.startsWith(href);
+---
+
+<header
+  id="site-header"
+  class:list={[
+    'fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-soft',
+    !darkHero && 'is-scrolled',
+  ]}
+  data-header
+  data-dark-hero={String(darkHero)}
+>
+  <div class="container-prestant">
+    <div class="flex h-[var(--header-h)] items-center justify-between gap-4">
+      <!-- Logo : bleu sur fond clair, blanc quand header transparent -->
+      <a href="/" class="relative block shrink-0" aria-label="Prestant — Accueil">
+        <img src={logoBlanc.src} alt="Prestant Luxury Realty" width="186" height="30"
+             class="h-7 w-auto sm:h-8 logo-blanc" />
+        <img src={logoBleu.src} alt="Prestant Luxury Realty" width="186" height="30"
+             class="h-7 w-auto sm:h-8 logo-bleu absolute inset-0 opacity-0" />
+      </a>
+
+      <!-- Nav desktop -->
+      <nav class="hidden xl:flex items-center gap-5" aria-label="Navigation principale">
+        {navigation.map((item) => (
+          <a
+            href={item.href}
+            class:list={[
+              'nav-link text-[0.7rem] uppercase tracking-wider transition-colors duration-300',
+              isActive(item.href) ? 'is-active' : '',
+            ]}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        ))}
+        <a href={liens.whatsapp} target="_blank" rel="noopener"
+           class="ml-1 inline-flex items-center gap-2 border border-bronze/60 text-[0.7rem] uppercase tracking-wider px-4 py-2.5 rounded-sm hover:bg-bronze hover:text-blanc hover:border-bronze transition-all duration-300 nav-cta">
+          Nous contacter
+        </a>
+      </nav>
+
+      <!-- Burger mobile / tablette -->
+      <button
+        type="button"
+        class="xl:hidden inline-flex flex-col justify-center items-center w-11 h-11 -mr-2 gap-[5px] burger"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+      >
+        <span class="block h-px w-6 bg-current transition-transform duration-300 burger-1"></span>
+        <span class="block h-px w-6 bg-current transition-opacity duration-300 burger-2"></span>
+        <span class="block h-px w-6 bg-current transition-transform duration-300 burger-3"></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Panneau mobile plein écran — placé HORS du <header> :
+     un ancêtre avec backdrop-filter deviendrait le bloc conteneur d'un
+     élément position:fixed et écraserait sa hauteur. -->
+<div
+  id="mobile-menu"
+  class="xl:hidden fixed inset-0 top-[var(--header-h)] z-[45] bg-blanc
+         opacity-0 pointer-events-none translate-y-2 transition-all duration-300 ease-soft"
+  data-mobile-menu
+>
+  <nav class="container-prestant flex flex-col py-8 gap-1" aria-label="Navigation mobile">
+    {navigation.map((item, i) => (
+      <a
+        href={item.href}
+        class="py-4 border-b border-pierre-200/60 text-encre text-lg font-light tracking-wide flex items-center justify-between"
+        style={`transition-delay:${i * 30}ms`}
+      >
+        {item.label}
+        <span class="text-bronze">→</span>
+      </a>
+    ))}
+    <div class="mt-6 flex flex-col gap-3">
+      <a href={liens.whatsapp} target="_blank" rel="noopener"
+         class="text-center bg-bronze text-blanc uppercase tracking-widest text-xs py-4 rounded-sm">
+        WhatsApp
+      </a>
+      <a href={liens.tel}
+         class="text-center border border-bronze/60 text-encre uppercase tracking-widest text-xs py-4 rounded-sm">
+        Appeler
+      </a>
+    </div>
+  </nav>
+</div>
+
+<style>
+  /* État transparent (par défaut, sur les hero sombres) : texte blanc */
+  [data-header] { color: #FCFAF6; }
+  [data-header] .nav-link { color: rgba(252,250,246,.85); }
+  [data-header] .nav-link:hover,
+  [data-header] .nav-link.is-active { color: #fff; }
+  [data-header] .nav-link.is-active { position: relative; }
+
+  /* État "scrollé" / fond clair */
+  [data-header].is-scrolled {
+    color: #14323C;
+    background: rgba(252,250,246,.92);
+    backdrop-filter: saturate(140%) blur(8px);
+    box-shadow: 0 1px 0 rgba(20,50,60,.06);
+  }
+  [data-header].is-scrolled .nav-link { color: rgba(20,50,60,.7); }
+  [data-header].is-scrolled .nav-link:hover,
+  [data-header].is-scrolled .nav-link.is-active { color: #14323C; }
+  [data-header].is-scrolled .logo-blanc { opacity: 0; }
+  [data-header].is-scrolled .logo-bleu { opacity: 1; }
+  [data-header].is-scrolled .nav-cta { border-color: rgba(166,124,82,.5); }
+
+  /* Menu mobile ouvert => header forcé clair */
+  [data-header].menu-open {
+    color: #14323C;
+    background: rgba(252,250,246,.98);
+  }
+  [data-header].menu-open .logo-blanc { opacity: 0; }
+  [data-header].menu-open .logo-bleu { opacity: 1; }
+
+  [data-mobile-menu].is-open {
+    opacity: 1; pointer-events: auto; transform: none;
+  }
+  .menu-open .burger-1 { transform: translateY(6px) rotate(45deg); }
+  .menu-open .burger-2 { opacity: 0; }
+  .menu-open .burger-3 { transform: translateY(-6px) rotate(-45deg); }
+</style>
+
+<script>
+  const header = document.querySelector('[data-header]');
+  const toggle = document.querySelector('[data-menu-toggle]');
+  const menu = document.querySelector('[data-mobile-menu]');
+  const darkHero = header?.getAttribute('data-dark-hero') === 'true';
+
+  // Header transparent -> opaque au scroll, uniquement sur les pages à hero sombre.
+  // Ailleurs, le header reste solide en permanence (bon contraste sur fond clair).
+  if (darkHero) {
+    const onScroll = () => {
+      if (window.scrollY > 24) header?.classList.add('is-scrolled');
+      else header?.classList.remove('is-scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // Menu mobile
+  let open = false;
+  const setMenu = (state: boolean) => {
+    open = state;
+    menu?.classList.toggle('is-open', open);
+    header?.classList.toggle('menu-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    toggle?.setAttribute('aria-label', open ? 'Fermer le menu' : 'Ouvrir le menu');
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+  toggle?.addEventListener('click', () => setMenu(!open));
+  menu?.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  window.addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) setMenu(false); });
+</script>
