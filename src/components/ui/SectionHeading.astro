@@ -5,7 +5,7 @@ interface Props {
   intro?: string;
   align?: 'left' | 'center';
   light?: boolean; // sur fond sombre
-  as?: 'h2' | 'h3';
+  as?: 'h1' | 'h2' | 'h3';
 }
 const { eyebrow, title, intro, align = 'left', light = false, as: Tag = 'h2' } = Astro.props;
 const alignCls = align === 'center' ? 'text-center mx-auto items-center' : 'items-start';

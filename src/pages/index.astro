@@ -12,7 +12,6 @@ import LiteYouTube from '../components/media/LiteYouTube.astro';
 import { liens } from '../data/site';
 import { faqSchema } from '../data/schema';
 
-import heroImg from '../assets/photos/hero-accueil.jpg';
 import salon from '../assets/photos/villa-guethary-1.jpg';
 import villa from '../assets/photos/villa-guethary-2.jpg';
 
@@ -29,7 +28,7 @@ for (const t of temoignages) {
   if (vus.has(t.data.prenom)) continue;
   vus.add(t.data.prenom);
   temoinsPhares.push(t);
-  if (temoinsPhares.length === 3) break;
+  if (temoinsPhares.length === 4) break;
 }
 
 const avantages = [
@@ -42,7 +41,7 @@ const avantages = [
 const faq = [
   { question: "Faut-il déjà avoir de l'expérience en immobilier ?", reponse: "Non. Nous accueillons des profils confirmés comme des personnes en reconversion. Notre parcours de formation et notre accompagnement sont conçus pour faire réussir les motivés, quel que soit leur point de départ." },
   { question: 'Quel est le statut proposé ?', reponse: "Vous exercez en tant qu'agent commercial indépendant (mandataire). Vous gardez votre liberté d'organisation tout en bénéficiant de la marque, des outils et de l'accompagnement Prestant." },
-  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez 30 % sur la rentrée d'un mandat simple, 40 % sur un mandat exclusif et 20 % à la vente (cumulables), plus une prime de 15 000 € dès 100 000 € de CA et la cooptation. Le détail et des exemples chiffrés sont sur la page Rémunération." },
+  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez un pourcentage des honoraires à l'entrée du mandat (30 % simple, 40 % exclusif) et 20 % à la vente — cumulables. Au-delà de 100 000 € HT de CA, vos taux d'entrée passent à 40 % et 50 %. S'y ajoute la cooptation (5 %). Détail et exemples sur la page Rémunération." },
   { question: 'Dans quelles régions recrutez-vous ?', reponse: "Nous développons le réseau dans cinq des plus belles régions de France : Pays Basque, Côte d'Azur, Paris & Île-de-France, Alpes et Provence. D'autres secteurs sont étudiés selon les profils." },
 ];
 ---
@@ -51,40 +50,32 @@ const faq = [
   description="Devenez agent commercial indépendant en immobilier de prestige avec Prestant. Marque premium, outils performants, formation et rémunération non plafonnée. Rejoignez le réseau."
   ogImage="og-accueil.jpg"
   schemas={[faqSchema(faq)]}
-  darkHero={true}
 >
-  <!-- ===================== HERO ===================== -->
-  <section class="relative min-h-[100svh] flex items-center overflow-hidden">
-    <Image src={heroImg} alt="Intérieur d'un bien immobilier de prestige" widths={[640, 1024, 1600, 2000]}
-      sizes="100vw" loading="eager" fetchpriority="high"
-      class="absolute inset-0 h-full w-full object-cover" />
-    <div class="absolute inset-0 bg-gradient-to-b from-encre/70 via-encre/50 to-encre/80"></div>
+  <!-- ===================== HERO (fond beige, texte centré) ===================== -->
+  <section class="bg-sable pt-[calc(var(--header-h)+2.5rem)] sm:pt-[calc(var(--header-h)+4rem)] pb-16 sm:pb-20">
+    <div class="container-prestant text-center">
+      <p class="eyebrow mb-6 animate-fade-up">Prestant Luxury Realty — Recrutement</p>
+      <h1 class="display text-encre text-4xl sm:text-6xl lg:text-7xl max-w-4xl mx-auto animate-fade-up">
+        Rejoignez le réseau de l'immobilier de prestige
+      </h1>
+      <div class="filet mx-auto mt-8"></div>
+      <p class="mt-8 max-w-2xl mx-auto text-pierre-600 text-lg sm:text-xl font-light leading-relaxed animate-fade-up">
+        Devenez agent commercial indépendant et bâtissez une activité d'exception,
+        avec la liberté du statut indépendant et la force d'une marque premium.
+      </p>
+      <div class="mt-10 flex flex-col sm:flex-row flex-wrap justify-center gap-4">
+        <Button href="#candidater" variant="primary" size="lg">Candidater</Button>
+        <Button href={liens.whatsapp} variant="outline" size="lg">Échanger sur WhatsApp</Button>
+      </div>
 
-    <div class="container-prestant relative z-10 pt-24 pb-28">
-      <div class="max-w-3xl animate-fade-up">
-        <p class="text-bronze-light uppercase tracking-widest text-xs sm:text-sm mb-6">
-          Prestant Luxury Realty — Recrutement
-        </p>
-        <h1 class="display text-blanc text-4xl sm:text-6xl lg:text-7xl">
-          Rejoignez le réseau de l'immobilier de prestige
-        </h1>
-        <p class="mt-8 max-w-xl text-pierre-100 text-lg sm:text-xl font-light leading-relaxed">
-          Devenez agent commercial indépendant et bâtissez une activité d'exception,
-          avec la liberté du statut indépendant et la force d'une marque premium.
-        </p>
-        <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
-          <Button href="#candidater" variant="primary" size="lg">Candidater</Button>
-          <Button href={liens.whatsapp} variant="outline" size="lg"
-            class="!text-blanc !border-pierre-100/50 hover:!border-bronze hover:!bg-bronze/10">
-            Échanger sur WhatsApp
-          </Button>
+      <!-- Vidéo de recrutement (lecteur léger, chargé au clic) -->
+      <div class="mt-14 sm:mt-16 max-w-3xl mx-auto" data-reveal>
+        <div class="rounded-sm overflow-hidden shadow-md ring-1 ring-pierre-200">
+          <LiteYouTube id="Kxr2fmXSb1c" title="Prestant — vidéo de recrutement" />
         </div>
+        <p class="mt-4 text-xs uppercase tracking-widest text-pierre-500">Découvrez Prestant en vidéo</p>
       </div>
     </div>
-
-    <a href="#preuves" class="absolute bottom-8 left-1/2 -translate-x-1/2 text-blanc/70 hover:text-blanc transition-colors hidden sm:block" aria-label="Découvrir">
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" class="animate-bounce"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>
-    </a>
   </section>
 
   <!-- ===================== PREUVES / CHIFFRES ===================== -->
@@ -103,11 +94,11 @@ const faq = [
   <!-- ===================== POURQUOI PRESTANT ===================== -->
   <Section bg="blanc" spacing="lg">
     <div class="grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:items-center">
-      <div class="order-2 lg:order-1 grid grid-cols-2 gap-4 items-start" data-reveal>
-        <Image src={salon} alt="Intérieur design d'un bien de prestige au Pays Basque" widths={[400, 800]} sizes="(min-width:1024px) 25vw, 50vw"
-          class="rounded-sm w-full object-cover aspect-[3/4]" loading="lazy" />
-        <Image src={villa} alt="Salon d'une villa de prestige" widths={[400, 800]} sizes="(min-width:1024px) 25vw, 50vw"
-          class="rounded-sm w-full object-cover aspect-[3/4]" loading="lazy" />
+      <div class="order-2 lg:order-1 flex flex-col gap-4" data-reveal>
+        <Image src={salon} alt="Intérieur design d'un bien de prestige au Pays Basque" widths={[500, 1000]} sizes="(min-width:1024px) 45vw, 100vw"
+          class="rounded-sm w-full object-cover aspect-[4/3]" loading="lazy" />
+        <Image src={villa} alt="Salon d'une villa de prestige" widths={[500, 1000]} sizes="(min-width:1024px) 45vw, 100vw"
+          class="rounded-sm w-full object-cover aspect-[4/3]" loading="lazy" />
       </div>
       <div class="order-1 lg:order-2">
         <SectionHeading
@@ -142,8 +133,8 @@ const faq = [
         <div class="filet mt-6"></div>
         <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
           Au statut d'agent commercial indépendant, vous êtes rémunéré à chaque étape — rentrée
-          de mandat et vente — avec un commissionnement clair, une prime de performance et la
-          cooptation. Le tout sans plafond de revenus.
+          de mandat et vente — avec un commissionnement clair, des taux boostés au-delà de
+          100 000 € de CA et la cooptation. Le tout sans plafond de revenus.
         </p>
         <div class="mt-8">
           <Button href="/remuneration" variant="primary">Voir la grille de rémunération</Button>
@@ -151,9 +142,9 @@ const faq = [
       </div>
       <div class="grid grid-cols-3 gap-4" data-reveal>
         {[
-          { v: '30–40%', l: 'sur la rentrée de mandat (simple / exclusif)' },
-          { v: '20%', l: 'à la vente, cumulable' },
-          { v: '+15 000€', l: 'de prime dès 100 000€ de CA' },
+          { v: 'jusqu’à 70%', l: 'des honoraires (entrée + vente, mandat exclusif)' },
+          { v: '+5%', l: 'de cooptation sur les ventes de vos recrues' },
+          { v: 'sans plafond', l: 'de revenus, au statut indépendant' },
         ].map((c) => (
           <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-5 text-center">
             <p class="text-bronze-light text-2xl font-light">{c.v}</p>
@@ -164,24 +155,29 @@ const faq = [
     </div>
   </Section>
 
-  <!-- ===================== TÉMOIGNAGE EN AVANT ===================== -->
+  <!-- ===================== TÉMOIGNAGES EN AVANT ===================== -->
   <Section bg="sable" spacing="lg">
-    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
-      <div class="grid grid-cols-3 gap-3 sm:gap-4" data-reveal>
-        {temoinsPhares.map((t) => (
+    <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-12">
+      <SectionHeading
+        eyebrow="Ils ont rejoint Prestant"
+        title="Des parcours qui parlent mieux que nous"
+        intro="Reconversions réussies, passages à l'indépendance, montée en puissance grâce au digital : découvrez les témoignages des agents du réseau."
+      />
+      <div class="shrink-0">
+        <Button href="/temoignages" variant="outline">Voir tous les témoignages</Button>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+      {temoinsPhares.map((t, i) => (
+        <figure data-reveal style={`transition-delay:${i * 60}ms`}>
           <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom} — ${t.data.titre}`} vertical={true} />
-        ))}
-      </div>
-      <div data-reveal>
-        <SectionHeading
-          eyebrow="Ils ont rejoint Prestant"
-          title="Des parcours qui parlent mieux que nous"
-          intro="Reconversions réussies, passages à l'indépendance, montée en puissance grâce au digital : découvrez les témoignages des agents du réseau."
-        />
-        <div class="mt-8">
-          <Button href="/temoignages" variant="outline">Voir tous les témoignages</Button>
-        </div>
-      </div>
+          <figcaption class="mt-4">
+            <p class="text-[0.65rem] uppercase tracking-widest text-bronze">{t.data.secteur}</p>
+            <p class="mt-1.5 text-sm font-light text-encre leading-snug">{t.data.titre}</p>
+            <p class="mt-1 text-xs font-light text-pierre-500">{t.data.prenom}</p>
+          </figcaption>
+        </figure>
+      ))}
     </div>
   </Section>
 

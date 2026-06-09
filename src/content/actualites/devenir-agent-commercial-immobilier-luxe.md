@@ -42,7 +42,7 @@ prospection digitale, stratégies off-market) qui font la différence dès les p
 
 La rémunération repose sur un commissionnement sur les honoraires d'agence, sans plafond.
 Découvrez en détail [comment fonctionne la rémunération d'un agent Prestant](/remuneration),
-avec ses primes et la cooptation.
+avec ses paliers de commission et la cooptation.
 
 ## Passer à l'action
 

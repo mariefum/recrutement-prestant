@@ -101,3 +101,34 @@ collections:
       - { name: profil, label: "Profil recherché", widget: list }
       - { name: avantages, label: "Avantages", widget: list }
       - { name: body, label: "Texte d'introduction", widget: markdown, required: false }
+
+  # ---------------- Pages locales (SEO local) ----------------
+  - name: secteurs
+    label: "Pages locales (SEO par ville)"
+    label_singular: "Page ville"
+    description: "Landing pages « devenir agent immobilier à … » listées dans le footer."
+    folder: "src/content/secteurs"
+    create: true
+    slug: "{{slug}}"
+    extension: md
+    format: frontmatter
+    fields:
+      - { name: ville, label: "Ville / zone", widget: string }
+      - { name: region, label: "Région", widget: string }
+      - { name: titre, label: "Titre H1", widget: string }
+      - { name: metaTitle, label: "Meta title (sans « | Prestant »)", widget: string }
+      - { name: description, label: "Meta description", widget: text }
+      - { name: intro, label: "Phrase d'introduction", widget: text }
+      - { name: image, label: "Photo de la ville/région", widget: image, required: false }
+      - { name: imageAlt, label: "Texte alternatif de l'image", widget: string, required: false }
+      - { name: applyUrl, label: "Lien de candidature Beetween", widget: string, required: false }
+      - { name: ordre, label: "Ordre d'affichage (footer)", widget: number, default: 1, value_type: int }
+      - { name: draft, label: "Brouillon (ne pas publier)", widget: boolean, default: false }
+      - name: faq
+        label: "FAQ (questions/réponses)"
+        widget: list
+        required: false
+        fields:
+          - { name: question, label: Question, widget: string }
+          - { name: reponse, label: Réponse, widget: text }
+      - { name: body, label: "Contenu de la page (marché local, etc.)", widget: markdown }

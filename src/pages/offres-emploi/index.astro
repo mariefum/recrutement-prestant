@@ -5,6 +5,7 @@ import Section from '../../components/ui/Section.astro';
 import SectionHeading from '../../components/ui/SectionHeading.astro';
 import CandidatureForm from '../../components/forms/CandidatureForm.astro';
 import CtaContact from '../../components/blocks/CtaContact.astro';
+import LiteYouTube from '../../components/media/LiteYouTube.astro';
 import { breadcrumbSchema } from '../../data/schema';
 
 const offres = (await getCollection('offres', (o) => o.data.actif)).sort(
@@ -28,6 +29,7 @@ const breadcrumb = breadcrumbSchema([
       <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Offres d'emploi</span>
     </nav>
     <SectionHeading
+      as="h1"
       eyebrow="Rejoindre le réseau"
       title="Offres d'emploi — agent commercial en immobilier de prestige"
       intro="Prestant recrute des agents commerciaux indépendants dans les plus belles régions de France. Filtrez par région et découvrez le poste qui vous correspond — ou déposez une candidature spontanée."
@@ -64,8 +66,24 @@ const breadcrumb = breadcrumbSchema([
     <p class="mt-8 text-sm text-pierre-500 font-light hidden" data-empty>Aucune offre pour cette région pour le moment — pensez à la candidature spontanée ci-dessous.</p>
   </Section>
 
+  <!-- Vidéo : le processus de recrutement -->
+  <Section bg="encre" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div data-reveal>
+        <SectionHeading eyebrow="En vidéo" title="Comment se passe le recrutement ?" light={true} />
+        <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
+          Sandy, en charge du recrutement, vous explique le processus pour rejoindre Prestant,
+          étape par étape.
+        </p>
+      </div>
+      <div data-reveal>
+        <LiteYouTube id="0LY5g6kMikg" title="Le processus de recrutement chez Prestant" />
+      </div>
+    </div>
+  </Section>
+
   <!-- Candidature spontanée -->
-  <Section id="candidater" bg="creme" spacing="lg">
+  <Section id="candidater" bg="sable" spacing="lg">
     <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-start">
       <div data-reveal>
         <SectionHeading

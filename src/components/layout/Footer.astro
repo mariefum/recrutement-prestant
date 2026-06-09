@@ -1,7 +1,13 @@
 ---
+import { getCollection } from 'astro:content';
 import { site, contact, liens, navigation, reseaux } from '../../data/site';
 import logoBlanc from '../../assets/brand/logo-prestant-blanc.svg';
 const annee = 2026;
+
+// Landing pages locales (SEO local) — listées dans le footer, pas dans le menu.
+const secteurs = (await getCollection('secteurs', (s) => !s.data.draft)).sort(
+  (a, b) => a.data.ordre - b.data.ordre,
+);
 ---
 <footer class="bg-encre text-pierre-200">
   <div class="container-prestant py-16 sm:py-20">
@@ -51,7 +57,23 @@ const annee = 2026;
       </div>
     </div>
 
-    <div class="mt-16 pt-8 border-t border-pierre-600/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.7rem] tracking-wide text-pierre-400">
+    {secteurs.length > 0 && (
+      <div class="mt-14 pt-8 border-t border-pierre-600/30">
+        <h2 class="eyebrow mb-5">Devenir agent immobilier par ville</h2>
+        <ul class="flex flex-wrap gap-x-6 gap-y-3">
+          {secteurs.map((s) => (
+            <li>
+              <a href={`/devenir-agent-immobilier-${s.slug}`}
+                 class="text-sm font-light text-pierre-300 hover:text-blanc transition-colors duration-300">
+                Agent immobilier à {s.data.ville}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
+    <div class="mt-14 pt-8 border-t border-pierre-600/30 flex flex-col sm:flex-row items-center justify-between gap-4 text-[0.7rem] tracking-wide text-pierre-400">
       <p>© {annee} {site.nomComplet}. Tous droits réservés.</p>
       <ul class="flex gap-6">
         <li><a href="https://www.prestant.com/mentions-legales/" class="hover:text-pierre-200 transition-colors">Mentions légales</a></li>

@@ -4,6 +4,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Section from '../components/ui/Section.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CtaContact from '../components/blocks/CtaContact.astro';
+import LiteYouTube from '../components/media/LiteYouTube.astro';
 import { breadcrumbSchema } from '../data/schema';
 import outilsImg from '../assets/photos/lifestyle-2.jpg';
 
@@ -39,6 +40,7 @@ const breadcrumb = breadcrumbSchema([
       <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Outils & formation</span>
     </nav>
     <SectionHeading
+      as="h1"
       eyebrow="Accompagnement"
       title="Des outils premium et une formation qui font la différence"
       intro="Réussir dans l'immobilier de prestige ne s'improvise pas. Prestant met à votre disposition les outils, les méthodes et l'accompagnement nécessaires, du premier jour à votre pleine autonomie."
@@ -96,6 +98,25 @@ const breadcrumb = breadcrumbSchema([
           les bonnes pratiques, et on cultive l'exigence du beau et du bien fait.
         </p>
       </div>
+    </div>
+  </Section>
+
+  <!-- Vidéos : outils & formation expliqués -->
+  <Section bg="creme" spacing="lg">
+    <SectionHeading
+      eyebrow="En vidéo"
+      title="L'accompagnement Prestant, expliqué"
+      intro="Outils, méthodes et formation des nouvelles recrues : Benoît et Sandy détaillent ce qui vous fait réussir."
+    />
+    <div class="mt-12 grid gap-8 md:grid-cols-2">
+      <figure data-reveal>
+        <LiteYouTube id="s5NB-GKpino" title="Les outils et accompagnements pour réussir" />
+        <figcaption class="mt-4 text-sm font-light text-pierre-600">Les outils et accompagnements innovants pour aider les agents à réussir.</figcaption>
+      </figure>
+      <figure data-reveal style="transition-delay:80ms">
+        <LiteYouTube id="SDBsMrzeHGA" title="La formation des nouvelles recrues" />
+        <figcaption class="mt-4 text-sm font-light text-pierre-600">Les formations et l'accompagnement interne proposés aux nouvelles recrues.</figcaption>
+      </figure>
     </div>
   </Section>
 

@@ -7,26 +7,41 @@ import CtaContact from '../components/blocks/CtaContact.astro';
 import Button from '../components/ui/Button.astro';
 import { faqSchema, breadcrumbSchema } from '../data/schema';
 
-// Modèle de commissionnement Prestant (% des honoraires d'agence).
-const commissions = [
-  { label: 'Rentrée — mandat simple', taux: '30 %', note: "Vous obtenez le mandat simple" },
-  { label: 'Rentrée — mandat exclusif', taux: '40 %', note: "Vous obtenez le mandat exclusif" },
-  { label: 'Vente', taux: '20 %', note: "Vous vendez le bien (mandat simple ou exclusif)" },
+// Modèle de commissionnement Prestant (% des honoraires HT encaissés).
+// Système de paliers : les taux d'entrée augmentent au-delà de 100 000 € HT de CA.
+const paliers = [
+  {
+    titre: 'Jusqu’à 100 000 € HT de CA',
+    sous: 'Votre rémunération de départ',
+    highlight: false,
+    lignes: [
+      { type: 'Mandat simple', entree: '30 %', total: '50 %' },
+      { type: 'Mandat exclusif', entree: '40 %', total: '60 %' },
+    ],
+  },
+  {
+    titre: 'Au-delà de 100 000 € HT',
+    sous: 'Revenus boostés 🚀',
+    highlight: true,
+    lignes: [
+      { type: 'Mandat simple', entree: '40 %', total: '60 %' },
+      { type: 'Mandat exclusif', entree: '50 %', total: '70 %' },
+    ],
+  },
 ];
 
-// Exemple sur une vente générant 40 000 € d'honoraires d'agence.
+// Exemple sur une vente générant 40 000 € HT d'honoraires d'agence.
 const exemples = [
-  { titre: 'Vous rentrez ET vendez un mandat exclusif', detail: '40 % (rentrée) + 20 % (vente) = 60 % des honoraires', commission: '24 000 €' },
-  { titre: 'Vous rentrez un mandat exclusif (vendu par un collègue)', detail: '40 % des honoraires', commission: '16 000 €' },
-  { titre: 'Vous vendez le mandat d’un collègue', detail: '20 % des honoraires', commission: '8 000 €' },
+  { titre: 'Mandat exclusif rentré et vendu', detail: '40 % (entrée) + 20 % (vente) = 60 %', commission: '24 000 €' },
+  { titre: 'Le même, une fois 100 000 € atteints 🚀', detail: '50 % (entrée) + 20 % (vente) = 70 %', commission: '28 000 €' },
+  { titre: 'Vente du mandat d’un collègue', detail: '20 % (vente)', commission: '8 000 €' },
 ];
 
 const faq = [
-  { question: 'Comment suis-je rémunéré ?', reponse: "Vous percevez un pourcentage des honoraires d'agence : 30 % pour la rentrée d'un mandat simple, 40 % pour la rentrée d'un mandat exclusif, et 20 % pour la vente d'un bien (mandat simple ou exclusif). Rentrée et vente se cumulent : rentrer un mandat exclusif et le vendre vous-même représente 60 % des honoraires." },
-  { question: "En quoi consiste la prime de 15 000 € ?", reponse: "Dès que vous dépassez 100 000 € de chiffre d'affaires sur l'exercice en cours, Prestant vous verse une prime de 15 000 € en bonus, en plus de vos commissions." },
-  { question: 'Comment fonctionne la cooptation ?', reponse: "Pour chaque agent qui rejoint l'équipe via votre réseau, vous touchez 5 % supplémentaires sur les 3 premières ventes de cette nouvelle recrue. Votre réseau devient une source de revenus complémentaire." },
+  { question: 'Comment suis-je rémunéré ?', reponse: "Vous percevez un pourcentage des honoraires HT encaissés, à l'entrée du mandat et à la vente. À l'entrée : 30 % pour un mandat simple, 40 % pour un mandat exclusif. À la vente (sortie) : 20 %. Entrée et vente se cumulent : rentrer un mandat exclusif et le vendre vous-même représente 60 % des honoraires." },
+  { question: "Qu'est-ce que les « revenus boostés » au-delà de 100 000 € ?", reponse: "Une fois 100 000 € HT de chiffre d'affaires atteints sur l'exercice, vos taux d'entrée augmentent : 40 % pour un mandat simple et 50 % pour un mandat exclusif (la sortie reste à 20 %). Vos totaux passent ainsi à 60 % et 70 %." },
+  { question: 'Comment fonctionne la cooptation ?', reponse: "Pour chaque agent qui rejoint l'équipe via votre réseau, vous touchez 5 % sur ses 3 premières ventes (sur les honoraires HT encaissés, déduction faite des éventuels apports d'affaires), dans la limite d'un forfait de 3 000 € TTC par vente." },
   { question: 'Y a-t-il un plafond de rémunération ?', reponse: "Non. Au statut d'agent commercial indépendant, vos revenus ne sont pas plafonnés : ils dépendent du nombre de mandats que vous rentrez et vendez, et de votre montée en puissance." },
-  { question: 'Quand mes commissions sont-elles versées ?', reponse: "Votre commission est versée une fois la vente finalisée chez le notaire (acte authentique) et les honoraires encaissés par l'agence." },
 ];
 
 const breadcrumb = breadcrumbSchema([
@@ -36,7 +51,7 @@ const breadcrumb = breadcrumbSchema([
 ---
 <BaseLayout
   title="Rémunération d'un agent commercial immobilier indépendant"
-  description="Découvrez la rémunération d'un agent commercial indépendant Prestant : 30 % sur les mandats simples, 40 % sur les exclusifs, 20 % à la vente, prime de 15 000 € et cooptation. Sans plafond."
+  description="Rémunération d'un agent commercial indépendant Prestant : 30 à 50 % à l'entrée du mandat selon paliers, 20 % à la vente et cooptation. Sans plafond."
   ogImage="og-remuneration.jpg"
   schemas={[faqSchema(faq), breadcrumb]}
 >
@@ -45,55 +60,70 @@ const breadcrumb = breadcrumbSchema([
       <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span> <span class="text-encre">Rémunération</span>
     </nav>
     <SectionHeading
+      as="h1"
       eyebrow="Rémunération"
       title="Une rémunération transparente et non plafonnée"
-      intro="Chez Prestant, vous êtes rémunéré à chaque étape — de la rentrée du mandat à la vente — avec un commissionnement clair, des primes et la cooptation. Sans plafond."
+      intro="Vous êtes rémunéré à chaque étape — entrée du mandat et vente — avec des taux qui augmentent une fois 100 000 € HT de CA atteints. S'y ajoute la cooptation."
     />
   </Section>
 
-  <!-- Le principe : commissions -->
+  <!-- Le principe : commissions par palier -->
   <Section bg="blanc" spacing="lg">
-    <SectionHeading eyebrow="Le commissionnement" title="Payé à chaque étape, sur chaque mandat" />
-    <div class="mt-12 grid gap-6 md:grid-cols-3">
-      {commissions.map((c, i) => (
-        <div class="bg-sable rounded-sm p-8 border border-transparent hover:border-bronze/40 transition-all duration-300" data-reveal style={`transition-delay:${i * 80}ms`}>
-          <p class="eyebrow">{c.label}</p>
-          <p class="mt-6 display text-5xl text-encre">{c.taux}</p>
-          <p class="mt-1 text-xs uppercase tracking-widest text-bronze">des honoraires d'agence</p>
-          <div class="filet my-6"></div>
-          <p class="text-sm font-light text-pierre-600">{c.note}</p>
+    <SectionHeading eyebrow="Le commissionnement" title="Des taux qui progressent avec votre performance" />
+    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+      {paliers.map((p, i) => (
+        <div
+          class:list={[
+            'rounded-sm p-8 border',
+            p.highlight ? 'bg-encre border-bronze/40 text-blanc' : 'bg-sable border-transparent',
+          ]}
+          data-reveal style={`transition-delay:${i * 80}ms`}
+        >
+          <p class:list={['text-xs uppercase tracking-widest', p.highlight ? 'text-bronze-light' : 'text-bronze']}>{p.sous}</p>
+          <h3 class:list={['mt-2 text-xl font-light', p.highlight ? 'text-blanc' : 'text-encre']}>{p.titre}</h3>
+          <div class:list={['filet my-6', p.highlight ? 'bg-bronze-light/70' : '']}></div>
+          <div class="space-y-5">
+            {p.lignes.map((l) => (
+              <div class="flex items-center justify-between gap-4">
+                <div>
+                  <p class:list={['text-sm font-medium', p.highlight ? 'text-blanc' : 'text-encre']}>{l.type}</p>
+                  <p class:list={['text-xs font-light mt-0.5', p.highlight ? 'text-pierre-200' : 'text-pierre-500']}>
+                    {l.entree} à l'entrée + 20 % à la vente
+                  </p>
+                </div>
+                <p class:list={['display text-3xl shrink-0', p.highlight ? 'text-bronze-light' : 'text-encre']}>{l.total}</p>
+              </div>
+            ))}
+          </div>
         </div>
       ))}
     </div>
     <div class="mt-8 max-w-prose bg-creme rounded-sm p-6 border-l-2 border-bronze" data-reveal>
       <p class="text-sm font-light text-encre leading-relaxed">
-        <strong class="font-medium">Rentrée et vente se cumulent.</strong> Un mandat exclusif que
-        vous rentrez <em>et</em> vendez vous-même représente <strong class="font-medium text-bronze-dark">40 % + 20 % = 60 %</strong>
-        des honoraires d'agence.
+        La part <strong class="font-medium">« vente » (sortie) est toujours de 20 %</strong>. Entrée et vente
+        <strong class="font-medium"> se cumulent</strong> : si vous rentrez un mandat <em>et</em> le vendez vous-même,
+        vous percevez les deux. Pourcentages calculés sur les honoraires HT encaissés.
       </p>
     </div>
   </Section>
 
-  <!-- Bonus & cooptation -->
+  <!-- Cooptation -->
   <Section bg="encre" spacing="lg">
-    <SectionHeading eyebrow="Au-delà des commissions" title="Primes & cooptation" light={true} />
-    <div class="mt-12 grid gap-6 md:grid-cols-2">
-      <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-8" data-reveal>
-        <p class="display text-5xl text-bronze-light">+15 000 €</p>
-        <div class="filet my-6"></div>
-        <h3 class="text-lg font-light text-blanc">Prime de performance</h3>
-        <p class="mt-2 text-sm font-light text-pierre-200 leading-relaxed">
-          Dès <strong class="text-blanc">100 000 € de chiffre d'affaires</strong> sur l'exercice en cours,
-          Prestant vous verse 15 000 € de prime, en plus de vos commissions.
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div data-reveal>
+        <SectionHeading eyebrow="Au-delà des commissions" title="La cooptation : votre réseau valorisé" light={true} />
+        <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
+          Votre réseau devient une source de revenus complémentaire : recommandez une nouvelle recrue
+          et soyez récompensé sur ses premières ventes.
         </p>
       </div>
-      <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-8" data-reveal style="transition-delay:80ms">
+      <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-8" data-reveal>
         <p class="display text-5xl text-bronze-light">+5 %</p>
         <div class="filet my-6"></div>
-        <h3 class="text-lg font-light text-blanc">Cooptation</h3>
+        <h3 class="text-lg font-light text-blanc">Sur les 3 premières ventes de votre recrue</h3>
         <p class="mt-2 text-sm font-light text-pierre-200 leading-relaxed">
-          Pour chaque agent qui rejoint l'équipe via votre réseau, vous touchez 5 % sur ses
-          <strong class="text-blanc">3 premières ventes</strong>. Votre réseau devient un revenu complémentaire.
+          5 % sur les honoraires HT encaissés (déduction faite des éventuels apports d'affaires),
+          dans la limite d'un forfait de <strong class="text-blanc">3 000 € TTC par vente</strong>.
         </p>
       </div>
     </div>
@@ -104,7 +134,7 @@ const breadcrumb = breadcrumbSchema([
     <SectionHeading
       eyebrow="Exemple concret"
       title="Pour une vente générant 40 000 € d'honoraires"
-      intro="Selon votre rôle sur le mandat, voici ce que vous percevez (hors primes et cooptation)."
+      intro="Selon votre rôle sur le mandat et votre palier, voici ce que vous percevez (hors cooptation)."
     />
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       {exemples.map((e, i) => (
@@ -117,7 +147,7 @@ const breadcrumb = breadcrumbSchema([
       ))}
     </div>
     <p class="mt-8 text-xs text-pierre-500 font-light max-w-prose">
-      * Exemple pédagogique sur une base de 40 000 € d'honoraires d'agence. Les montants réels
+      * Exemple pédagogique sur une base de 40 000 € HT d'honoraires d'agence. Les montants réels
       dépendent du prix de vente et des honoraires de chaque transaction.
     </p>
   </Section>

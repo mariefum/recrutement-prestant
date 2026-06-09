@@ -64,4 +64,23 @@ const actualites = defineCollection({
   }),
 });
 
-export const collections = { offres, temoignages, actualites };
+// --- Landing pages locales (SEO local) → /devenir-agent-immobilier-[ville] ---
+const secteurs = defineCollection({
+  type: 'content',
+  schema: z.object({
+    ville: z.string(),
+    region: z.string(),
+    titre: z.string(), // H1
+    metaTitle: z.string(),
+    description: z.string(),
+    intro: z.string(),
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    applyUrl: z.string().url().optional(),
+    faq: z.array(z.object({ question: z.string(), reponse: z.string() })).default([]),
+    ordre: z.number().default(0),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { offres, temoignages, actualites, secteurs };

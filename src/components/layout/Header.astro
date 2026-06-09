@@ -29,18 +29,21 @@ const isActive = (href: string) =>
       <!-- Logo : bleu sur fond clair, blanc quand header transparent -->
       <a href="/" class="relative block shrink-0" aria-label="Prestant — Accueil">
         <img src={logoBlanc.src} alt="Prestant Luxury Realty" width="186" height="30"
-             class="h-7 w-auto sm:h-8 logo-blanc" />
+             class="h-7 w-auto xl:h-8 logo-blanc" />
         <img src={logoBleu.src} alt="Prestant Luxury Realty" width="186" height="30"
-             class="h-7 w-auto sm:h-8 logo-bleu absolute inset-0 opacity-0" />
+             class="h-7 w-auto xl:h-8 logo-bleu absolute inset-0 opacity-0" />
       </a>
 
       <!-- Nav desktop -->
-      <nav class="hidden xl:flex items-center gap-5" aria-label="Navigation principale">
+      <nav class="hidden lg:flex items-center gap-4 xl:gap-8" aria-label="Navigation principale">
         {navigation.map((item) => (
           <a
             href={item.href}
             class:list={[
-              'nav-link text-[0.7rem] uppercase tracking-wider transition-colors duration-300',
+              'nav-link text-[0.68rem] xl:text-[0.72rem] uppercase tracking-wider xl:tracking-widest transition-all duration-300 whitespace-nowrap',
+              item.href === '/contact'
+                ? 'border border-bronze/70 rounded-sm px-4 py-2 hover:bg-bronze hover:!text-blanc hover:border-bronze'
+                : '',
               isActive(item.href) ? 'is-active' : '',
             ]}
             aria-current={isActive(item.href) ? 'page' : undefined}
@@ -48,16 +51,12 @@ const isActive = (href: string) =>
             {item.label}
           </a>
         ))}
-        <a href={liens.whatsapp} target="_blank" rel="noopener"
-           class="ml-1 inline-flex items-center gap-2 border border-bronze/60 text-[0.7rem] uppercase tracking-wider px-4 py-2.5 rounded-sm hover:bg-bronze hover:text-blanc hover:border-bronze transition-all duration-300 nav-cta">
-          Nous contacter
-        </a>
       </nav>
 
       <!-- Burger mobile / tablette -->
       <button
         type="button"
-        class="xl:hidden inline-flex flex-col justify-center items-center w-11 h-11 -mr-2 gap-[5px] burger"
+        class="lg:hidden inline-flex flex-col justify-center items-center w-11 h-11 -mr-2 gap-[5px] burger"
         aria-label="Ouvrir le menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -76,7 +75,7 @@ const isActive = (href: string) =>
      élément position:fixed et écraserait sa hauteur. -->
 <div
   id="mobile-menu"
-  class="xl:hidden fixed inset-0 top-[var(--header-h)] z-[45] bg-blanc
+  class="lg:hidden fixed inset-0 top-[var(--header-h)] z-[45] bg-blanc
          opacity-0 pointer-events-none translate-y-2 transition-all duration-300 ease-soft"
   data-mobile-menu
 >

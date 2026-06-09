@@ -48,9 +48,9 @@ export const reseaux = [
 
 // --- Navigation principale (ordre = parcours de conversion) ---
 export const navigation = [
-  { label: 'Le métier', href: '/metier-lifestyle' },
+  { label: 'Métier', href: '/metier-lifestyle' },
   { label: 'Rémunération', href: '/remuneration' },
-  { label: 'Outils & formation', href: '/outils-formation' },
+  { label: 'Accompagnement', href: '/outils-formation' },
   { label: 'Offres', href: '/offres-emploi' },
   { label: 'Témoignages', href: '/temoignages' },
   { label: 'Actualités', href: '/actualites' },

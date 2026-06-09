@@ -1,0 +1,74 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Section from '../components/ui/Section.astro';
+import SectionHeading from '../components/ui/SectionHeading.astro';
+import Button from '../components/ui/Button.astro';
+import Faq from '../components/blocks/Faq.astro';
+import CtaContact from '../components/blocks/CtaContact.astro';
+import { liens } from '../data/site';
+import { faqSchema, breadcrumbSchema } from '../data/schema';
+
+export async function getStaticPaths() {
+  const secteurs = await getCollection('secteurs', (s) => !s.data.draft);
+  return secteurs.map((secteur) => ({ params: { ville: secteur.slug }, props: { secteur } }));
+}
+
+const { secteur } = Astro.props;
+const d = secteur.data;
+const { Content } = await secteur.render();
+
+const breadcrumb = breadcrumbSchema([
+  { nom: 'Accueil', url: '/' },
+  { nom: 'Offres d’emploi', url: '/offres-emploi' },
+  { nom: d.ville, url: `/devenir-agent-immobilier-${secteur.slug}` },
+]);
+const schemas = d.faq.length ? [faqSchema(d.faq), breadcrumb] : [breadcrumb];
+---
+<BaseLayout title={d.metaTitle} description={d.description} ogImage="og-offres.jpg" schemas={schemas}>
+  <Section bg="sable" spacing="md" class="pt-32 sm:pt-36">
+    <nav aria-label="Fil d'Ariane" class="text-xs tracking-wide text-pierre-500 mb-8">
+      <a href="/" class="hover:text-bronze">Accueil</a> <span class="mx-2">/</span>
+      <a href="/offres-emploi" class="hover:text-bronze">Offres</a> <span class="mx-2">/</span>
+      <span class="text-encre">{d.ville}</span>
+    </nav>
+    <SectionHeading as="h1" eyebrow={`Recrutement — ${d.region}`} title={d.titre} intro={d.intro} />
+    <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
+      {d.applyUrl && (
+        <Button href={d.applyUrl} variant="primary" size="lg" target="_blank" rel="noopener">
+          Voir l'offre & postuler
+        </Button>
+      )}
+      <Button href={liens.whatsapp} variant="outline" size="lg" target="_blank" rel="noopener">
+        Échanger sur WhatsApp
+      </Button>
+    </div>
+  </Section>
+
+  {d.image && (
+    <div class="container-prestant mt-8 sm:mt-12">
+      <img src={d.image} alt={d.imageAlt ?? d.titre}
+        class="rounded-sm w-full object-cover aspect-[16/9] sm:aspect-[21/9]" loading="eager" decoding="async" />
+    </div>
+  )}
+
+  <Section bg="blanc" spacing="lg" class="!pt-10 sm:!pt-12">
+    <article class="max-w-prose mx-auto prose-prestant">
+      <Content />
+    </article>
+  </Section>
+
+  {d.faq.length > 0 && (
+    <Section bg="creme" spacing="lg">
+      <div class="max-w-3xl mx-auto">
+        <SectionHeading eyebrow="Questions fréquentes" title={`Agent immobilier de luxe à ${d.ville}`} align="center" />
+        <div class="mt-12"><Faq items={d.faq} /></div>
+      </div>
+    </Section>
+  )}
+
+  <CtaContact
+    titre={`Rejoignez Prestant à ${d.ville}`}
+    intro="Découvrez l'offre, postulez en ligne ou échangeons directement sur votre projet."
+  />
+</BaseLayout>

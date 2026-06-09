@@ -1,6 +1,6 @@
 ---
 titre: "Rémunération d'un mandataire en immobilier de prestige : comment ça marche ?"
-description: "Commission sur mandats simples et exclusifs, part à la vente, primes, cooptation : on décrypte la rémunération d'un agent commercial indépendant en immobilier de luxe."
+description: "Commission sur mandats simples et exclusifs, part à la vente, taux boostés au-delà de 100K€, cooptation : on décrypte la rémunération d'un agent commercial indépendant en immobilier de luxe."
 date: 2026-06-02
 auteur: "L’équipe Prestant"
 categorie: "Rémunération"
@@ -24,10 +24,11 @@ transaction :
 Point clé : rentrée et vente **se cumulent**. Un mandat exclusif que vous rentrez *et*
 vendez vous-même représente donc 40 % + 20 % = **60 % des honoraires**.
 
-## Des primes qui récompensent la performance
+## Des taux boostés au-delà de 100 000 €
 
-Au-delà des commissions, une **prime de 15 000 €** est versée dès que vous dépassez
-100 000 € de chiffre d'affaires sur l'exercice. La performance est directement récompensée.
+La performance est directement récompensée : une fois **100 000 € HT de chiffre d'affaires**
+atteints sur l'exercice, vos taux d'entrée augmentent (40 % pour un mandat simple, 50 % pour
+un exclusif), portant vos totaux à **60 % et 70 %** des honoraires.
 
 ## La cooptation : votre réseau comme revenu complémentaire
 

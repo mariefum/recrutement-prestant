@@ -5,6 +5,7 @@ import Section from '../components/ui/Section.astro';
 import SectionHeading from '../components/ui/SectionHeading.astro';
 import CtaContact from '../components/blocks/CtaContact.astro';
 import Faq from '../components/blocks/Faq.astro';
+import LiteYouTube from '../components/media/LiteYouTube.astro';
 import { faqSchema, breadcrumbSchema } from '../data/schema';
 import lifestyle1 from '../assets/photos/villa-anglet-3.jpg';
 import villaG from '../assets/photos/hero-metier.jpg';
@@ -101,6 +102,22 @@ const breadcrumb = breadcrumbSchema([
     <div class="mt-6">
       <Image src={lifestyle1} alt="Art de vivre Prestant" widths={[800, 1400, 2000]} sizes="100vw"
         class="rounded-sm w-full object-cover aspect-[21/9]" loading="lazy" data-reveal />
+    </div>
+  </Section>
+
+  <!-- Vidéo : la vision du fondateur -->
+  <Section bg="encre" spacing="lg">
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div data-reveal>
+        <SectionHeading eyebrow="La vision Prestant" title="Ce qui distingue Prestant, par son fondateur" light={true} />
+        <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
+          Benoît, fondateur de Prestant, revient sur la vision de l'agence et ce qui la
+          différencie dans l'immobilier de prestige.
+        </p>
+      </div>
+      <div data-reveal>
+        <LiteYouTube id="pXgTDCyuLJs" title="La vision derrière Prestant" />
+      </div>
     </div>
   </Section>
 
