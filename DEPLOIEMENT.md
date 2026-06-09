@@ -36,26 +36,16 @@ puis explique comment éditer les contenus dans le temps via le back-office `/ad
 
 ---
 
-## Étape 3 — Variables d'environnement (formulaires de contact)
+## Étape 3 — Formulaires : rien à configurer ✅
 
-Les boutons « Postuler » des offres renvoient vers **Beetween** et fonctionnent
-sans configuration. Seuls les **formulaires spontané / contact** ont besoin d'un envoi d'email :
+Aucune variable d'environnement n'est nécessaire pour les formulaires :
+- Les boutons « Postuler » des offres renvoient vers **Beetween**.
+- Les formulaires **candidature spontanée** et **contact** fonctionnent par **`mailto:`** :
+  au clic, le logiciel de messagerie de l'utilisateur s'ouvre, pré-rempli vers
+  `sandy.miranda@prestant.com` (le candidat joint son CV directement dans l'email).
 
-1. Crée un compte [resend.com](https://resend.com) et **vérifie ton domaine** `prestant.com`
-   (ou utilise un sous-domaine d'envoi). Génère une **clé API**.
-2. Dans Vercel : **Project → Settings → Environment Variables**, ajoute :
-
-   | Nom | Valeur |
-   |---|---|
-   | `RESEND_API_KEY` | ta clé API Resend |
-   | `RESEND_FROM` | `Recrutement Prestant <recrutement@prestant.com>` |
-   | `CONTACT_EMAIL` | `sandy.miranda@prestant.com` |
-   | `BETWEEN_INTAKE_EMAIL` | *(optionnel)* adresse d'intake Beetween |
-
-3. **Redeploy** le projet pour appliquer les variables.
-
-> Tant que ces variables ne sont pas définies, seuls les formulaires spontané/contact
-> renvoient un message d'erreur ; le reste du site (et les candidatures Beetween) fonctionne.
+> Les seules variables d'environnement éventuelles concernent le back-office CMS
+> (connexion « Sign In with GitHub »), et sont facultatives — voir Étape 5.
 
 ---
 

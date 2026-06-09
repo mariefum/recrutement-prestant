@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
-import { site } from '../data/site';
+import { site, contact } from '../data/site';
 import { organizationSchema } from '../data/schema';
+const contactEmail = contact.email;
 import BaseHead from '../components/seo/BaseHead.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Header from '../components/layout/Header.astro';
@@ -59,40 +60,40 @@ const { title, description, ogImage, noindex, schemas = [], darkHero = false } =
       }
     </script>
 
-    <script>
-      // Soumission AJAX des formulaires (candidature + contact) vers les
-      // fonctions Vercel /api. Validation native + état accessible.
-      document.querySelectorAll<HTMLFormElement>('[data-ajax-form]').forEach((form) => {
-        const status = form.querySelector<HTMLElement>('[data-form-status]');
-        const btn = form.querySelector<HTMLButtonElement>('[type="submit"]');
-        const setStatus = (msg: string, color: string) => {
+    <script define:vars={{ contactEmail }}>
+      // Soumission des formulaires par mailto : ouvre le client mail de
+      // l'utilisateur avec un message pré-rempli adressé à Sandy.
+      const LABELS = {
+        nom: 'Nom et prénom', email: 'Email', telephone: 'Téléphone',
+        secteur: 'Secteur géographique', experience: 'Expérience',
+        poste: 'Poste visé', message: 'Message',
+      };
+      document.querySelectorAll('[data-mailto-form]').forEach((form) => {
+        const status = form.querySelector('[data-form-status]');
+        const setStatus = (msg, color) => {
           if (status) { status.textContent = msg; status.style.color = color; }
         };
-        form.addEventListener('submit', async (e) => {
+        form.addEventListener('submit', (e) => {
           e.preventDefault();
           // Honeypot anti-spam
-          if ((form.querySelector('[name="_gotcha"]') as HTMLInputElement)?.value) return;
+          if (form.querySelector('[name="_gotcha"]')?.value) return;
           if (!form.checkValidity()) { form.reportValidity(); return; }
-          const original = btn?.textContent || '';
-          if (btn) { btn.disabled = true; btn.textContent = 'Envoi…'; }
-          setStatus('', '');
-          try {
-            const res = await fetch(form.action, {
-              method: 'POST',
-              body: new FormData(form),
-              headers: { Accept: 'application/json' },
-            });
-            if (res.ok) {
-              form.reset();
-              setStatus('Merci, votre message a bien été envoyé. Nous vous recontactons rapidement.', '#A67C52');
-            } else {
-              throw new Error('http ' + res.status);
-            }
-          } catch (err) {
-            setStatus("Une erreur est survenue. Écrivez-nous à sandy.miranda@prestant.com.", '#b04a3a');
-          } finally {
-            if (btn) { btn.disabled = false; btn.textContent = original; }
+
+          const fd = new FormData(form);
+          const subject = fd.get('_sujet') || 'Contact — site Prestant';
+          let body = '';
+          for (const [key, value] of fd.entries()) {
+            if (['_sujet', '_gotcha', 'consentement', 'cv'].includes(key)) continue;
+            if (!value) continue;
+            body += `${LABELS[key] || key} : ${value}\n`;
           }
+          // Le mailto ne peut pas joindre de fichier : on invite à le faire.
+          if (form.dataset.mailtoForm === 'candidature') {
+            body += `\n— Merci de joindre votre CV en pièce jointe de cet email. —\n`;
+          }
+          const href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          window.location.href = href;
+          setStatus('Votre logiciel de messagerie va s’ouvrir avec votre message pré-rempli. Il ne reste qu’à l’envoyer.', '#A67C52');
         });
       });
     </script>

@@ -1,5 +1,4 @@
 ---
-import { formulaires } from '../../data/site';
 import Button from '../ui/Button.astro';
 
 interface Props { light?: boolean; }
@@ -12,7 +11,7 @@ const labelClass = light
   : 'block text-xs uppercase tracking-widest text-pierre-600 mb-2';
 const statusClass = light ? 'text-xs text-pierre-200' : 'text-xs text-pierre-500';
 ---
-<form class="space-y-5" data-ajax-form action={formulaires.contactEndpoint} method="post" novalidate>
+<form class="space-y-5" data-mailto-form="contact" novalidate>
   <input type="hidden" name="_sujet" value="Demande de contact — recrutement Prestant" />
   <div class="hidden" aria-hidden="true">
     <label>Ne pas remplir<input type="text" name="_gotcha" tabindex="-1" autocomplete="off" /></label>

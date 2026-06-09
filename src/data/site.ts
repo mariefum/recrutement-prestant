@@ -74,9 +74,3 @@ export const regions = [
   'Landes & Côte sud',
   'La Rochelle & littoral',
 ];
-
-// --- Configuration des endpoints de formulaire (fonctions Vercel /api) ---
-export const formulaires = {
-  candidatureEndpoint: '/api/candidature',
-  contactEndpoint: '/api/contact',
-};
