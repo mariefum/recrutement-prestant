@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "private": true,
   "description": "Site de recrutement Prestant Luxury Realty — agents commerciaux en immobilier de prestige.",
+  "engines": {
+    "node": "22.x"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
