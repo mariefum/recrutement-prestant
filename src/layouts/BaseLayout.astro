@@ -80,7 +80,7 @@ const { title, description, ogImage, noindex, schemas = [], darkHero = false } =
           if (!form.checkValidity()) { form.reportValidity(); return; }
 
           const fd = new FormData(form);
-          const subject = fd.get('_sujet') || 'Contact — site Prestant';
+          const subject = fd.get('_sujet') || 'Contact site Prestant';
           let body = '';
           for (const [key, value] of fd.entries()) {
             if (['_sujet', '_gotcha', 'consentement', 'cv'].includes(key)) continue;
@@ -89,7 +89,7 @@ const { title, description, ogImage, noindex, schemas = [], darkHero = false } =
           }
           // Le mailto ne peut pas joindre de fichier : on invite à le faire.
           if (form.dataset.mailtoForm === 'candidature') {
-            body += `\n— Merci de joindre votre CV en pièce jointe de cet email. —\n`;
+            body += `\n(Merci de joindre votre CV en pièce jointe de cet email.)\n`;
           }
           const href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
           window.location.href = href;

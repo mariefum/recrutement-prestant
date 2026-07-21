@@ -67,7 +67,7 @@ const breadcrumb = breadcrumbSchema([
       <a href="/offres-emploi" class="hover:text-bronze">Offres</a> <span class="mx-2">/</span>
       <span class="text-encre">{d.region}</span>
     </nav>
-    <p class="eyebrow mb-4">{d.region}{d.ville ? ` — ${d.ville}` : ''}</p>
+    <p class="eyebrow mb-4">{d.region}{d.ville ? ` · ${d.ville}` : ''}</p>
     <h1 class="display text-3xl sm:text-4xl lg:text-5xl text-encre max-w-3xl">{d.titre}</h1>
     <div class="mt-6 flex flex-wrap gap-3">
       <span class="text-xs uppercase tracking-widest text-pierre-600 border border-pierre-300 rounded-full px-4 py-1.5">{d.statut}</span>
@@ -136,7 +136,7 @@ const breadcrumb = breadcrumbSchema([
             {d.applyUrl
               ? <Button href={d.applyUrl} variant="primary" class="w-full" target="_blank" rel="noopener">Postuler en ligne</Button>
               : <Button href="#postuler" variant="primary" class="w-full">Postuler</Button>}
-            <Button href={`mailto:${contact.email}?subject=${encodeURIComponent('Candidature — ' + d.titre)}`} variant="outline" class="w-full">Candidater par email</Button>
+            <Button href={`mailto:${contact.email}?subject=${encodeURIComponent('Candidature pour ' + d.titre)}`} variant="outline" class="w-full">Candidater par email</Button>
           </div>
         </div>
       </aside>

@@ -41,7 +41,7 @@ const avantages = [
 const faq = [
   { question: "Faut-il déjà avoir de l'expérience en immobilier ?", reponse: "Non. Nous accueillons des profils confirmés comme des personnes en reconversion. Notre parcours de formation et notre accompagnement sont conçus pour faire réussir les motivés, quel que soit leur point de départ." },
   { question: 'Quel est le statut proposé ?', reponse: "Vous exercez en tant qu'agent commercial indépendant (mandataire). Vous gardez votre liberté d'organisation tout en bénéficiant de la marque, des outils et de l'accompagnement Prestant." },
-  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez un pourcentage des honoraires à l'entrée du mandat (30 % simple, 40 % exclusif) et 20 % à la vente — cumulables. Au-delà de 100 000 € HT de CA, vos taux d'entrée passent à 40 % et 50 %. S'y ajoute la cooptation (5 %). Détail et exemples sur la page Rémunération." },
+  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez un pourcentage des honoraires à l'entrée du mandat (30 % simple, 40 % exclusif) et 20 % à la vente, cumulables. Au-delà de 100 000 € HT de CA, vos taux d'entrée passent à 40 % et 50 %. S'y ajoute la cooptation (5 %). Détail et exemples sur la page Rémunération." },
   { question: 'Dans quelles régions recrutez-vous ?', reponse: "Nous développons le réseau dans cinq des plus belles régions de France : Pays Basque, Côte d'Azur, Paris & Île-de-France, Alpes et Provence. D'autres secteurs sont étudiés selon les profils." },
 ];
 ---
@@ -54,7 +54,7 @@ const faq = [
   <!-- ===================== HERO (fond beige, texte centré) ===================== -->
   <section class="bg-sable pt-[calc(var(--header-h)+2.5rem)] sm:pt-[calc(var(--header-h)+4rem)] pb-16 sm:pb-20">
     <div class="container-prestant text-center">
-      <p class="eyebrow mb-6 animate-fade-up">Prestant Luxury Realty — Recrutement</p>
+      <p class="eyebrow mb-6 animate-fade-up">Prestant Luxury Realty</p>
       <h1 class="display text-encre text-4xl sm:text-6xl lg:text-7xl max-w-4xl mx-auto animate-fade-up">
         Rejoignez le réseau de l'immobilier de prestige
       </h1>
@@ -71,7 +71,7 @@ const faq = [
       <!-- Vidéo de recrutement (lecteur léger, chargé au clic) -->
       <div class="mt-14 sm:mt-16 max-w-3xl mx-auto" data-reveal>
         <div class="rounded-sm overflow-hidden shadow-md ring-1 ring-pierre-200">
-          <LiteYouTube id="Kxr2fmXSb1c" title="Prestant — vidéo de recrutement" />
+          <LiteYouTube id="Kxr2fmXSb1c" title="Vidéo de recrutement Prestant" autoplay={true} />
         </div>
         <p class="mt-4 text-xs uppercase tracking-widest text-pierre-500">Découvrez Prestant en vidéo</p>
       </div>
@@ -132,9 +132,9 @@ const faq = [
         </h2>
         <div class="filet mt-6"></div>
         <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
-          Au statut d'agent commercial indépendant, vous êtes rémunéré à chaque étape — rentrée
-          de mandat et vente — avec un commissionnement clair, des taux boostés au-delà de
-          100 000 € de CA et la cooptation. Le tout sans plafond de revenus.
+          Au statut d'agent commercial indépendant, vous êtes rémunéré à chaque étape, de la
+          rentrée du mandat à la vente, avec un commissionnement clair, des taux boostés au-delà
+          de 100 000 € de CA et la cooptation. Le tout sans plafond de revenus.
         </p>
         <div class="mt-8">
           <Button href="/remuneration" variant="primary">Voir la grille de rémunération</Button>
@@ -170,7 +170,7 @@ const faq = [
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
       {temoinsPhares.map((t, i) => (
         <figure data-reveal style={`transition-delay:${i * 60}ms`}>
-          <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom} — ${t.data.titre}`} vertical={true} />
+          <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom}, ${t.data.titre}`} vertical={true} />
           <figcaption class="mt-4">
             <p class="text-[0.65rem] uppercase tracking-widest text-bronze">{t.data.secteur}</p>
             <p class="mt-1.5 text-sm font-light text-encre leading-snug">{t.data.titre}</p>

@@ -1,5 +1,5 @@
 ---
-titre: "Agent commercial immobilier de luxe — Côte d'Azur & Provence"
+titre: "Agent commercial immobilier de luxe sur la Côte d'Azur et en Provence"
 region: "Provence-Alpes-Côte d'Azur"
 ville: "Nice"
 secteur: "Immobilier résidentiel de prestige"

@@ -1,5 +1,5 @@
 ---
-titre: "Agent commercial immobilier de luxe — Bassin d'Arcachon"
+titre: "Agent commercial immobilier de luxe sur le Bassin d'Arcachon"
 region: "Bassin d'Arcachon"
 ville: "Arcachon"
 secteur: "Immobilier résidentiel de prestige"

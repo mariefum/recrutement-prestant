@@ -8,7 +8,7 @@ image: "/uploads/article-remuneration.jpg"
 imageAlt: "Intérieur design d'un bien de prestige"
 ---
 
-La rémunération est souvent la première question des candidats à l'immobilier de luxe — et
+La rémunération est souvent la première question des candidats à l'immobilier de luxe, et
 c'est légitime. Contrairement à un salaire fixe, le revenu d'un **agent commercial
 indépendant** dépend de son activité, mais il n'est **pas plafonné**. Décryptage.
 
@@ -44,5 +44,5 @@ Retrouvez le [détail de la grille de rémunération et des exemples chiffrés](
 ## Et concrètement ?
 
 Vos revenus dépendent du nombre de mandats rentrés et vendus, et de votre montée en
-puissance — soutenue par [les outils et la formation Prestant](/outils-formation). Pour en
+puissance, soutenue par [les outils et la formation Prestant](/outils-formation). Pour en
 parler, découvrez nos [offres d'emploi](/offres-emploi) ou contactez-nous directement.

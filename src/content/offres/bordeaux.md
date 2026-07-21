@@ -1,5 +1,5 @@
 ---
-titre: "Agent commercial immobilier de luxe — Bordeaux"
+titre: "Agent commercial immobilier de luxe à Bordeaux"
 region: "Bordeaux & Gironde"
 ville: "Bordeaux"
 secteur: "Immobilier résidentiel de prestige"

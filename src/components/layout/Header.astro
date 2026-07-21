@@ -24,10 +24,12 @@ const isActive = (href: string) =>
   data-header
   data-dark-hero={String(darkHero)}
 >
-  <div class="container-prestant">
+  <!-- Conteneur volontairement plus large que le contenu : le logo est repoussé
+       vers la gauche de l'écran et bien séparé du menu. -->
+  <div class="mx-auto w-full max-w-[90rem] px-5 sm:px-8 lg:px-10">
     <div class="flex h-[var(--header-h)] items-center justify-between gap-4">
       <!-- Logo : bleu sur fond clair, blanc quand header transparent -->
-      <a href="/" class="relative block shrink-0" aria-label="Prestant — Accueil">
+      <a href="/" class="relative block shrink-0" aria-label="Prestant, accueil">
         <img src={logoBlanc.src} alt="Prestant Luxury Realty" width="186" height="30"
              class="h-7 w-auto xl:h-8 logo-blanc" />
         <img src={logoBleu.src} alt="Prestant Luxury Realty" width="186" height="30"
@@ -40,7 +42,7 @@ const isActive = (href: string) =>
           <a
             href={item.href}
             class:list={[
-              'nav-link text-[0.68rem] xl:text-[0.72rem] uppercase tracking-wider xl:tracking-widest transition-all duration-300 whitespace-nowrap',
+              'nav-link font-semibold text-[0.68rem] xl:text-[0.72rem] uppercase tracking-wider xl:tracking-widest transition-all duration-300 whitespace-nowrap',
               item.href === '/contact'
                 ? 'border border-bronze/70 rounded-sm px-4 py-2 hover:bg-bronze hover:!text-blanc hover:border-bronze'
                 : '',

@@ -5,14 +5,27 @@ interface Props {
   class?: string;
   /** Format vertical 9:16 (Shorts) */
   vertical?: boolean;
+  /** Lecture automatique (muette) au chargement, sans clic */
+  autoplay?: boolean;
 }
-const { id, title, class: extra = '', vertical = false } = Astro.props;
+const { id, title, class: extra = '', vertical = false, autoplay = false } = Astro.props;
 const ratio = vertical ? 'aspect-[9/16]' : 'aspect-video';
-// Vignette YouTube haute def (toujours disponible). Pour les Shorts, le cadrage
-// object-cover 9:16 recadre la vignette pillarboxée sur le contenu central.
-const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
+// Vignette haute résolution ; repli vers hqdefault si maxres indisponible.
+const thumb = id ? `https://i.ytimg.com/vi/${id}/maxresdefault.jpg` : null;
+const thumbFallback = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
 ---
-{id ? (
+{id && autoplay ? (
+  <div class={`relative w-full ${ratio} overflow-hidden rounded-sm bg-encre ${extra}`}>
+    <iframe
+      class="absolute inset-0 h-full w-full"
+      src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1&mute=1&rel=0&playsinline=1`}
+      title={title}
+      loading="eager"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
+) : id ? (
   <lite-yt
     class={`group relative block w-full ${ratio} overflow-hidden rounded-sm bg-encre cursor-pointer ${extra}`}
     data-id={id}
@@ -22,9 +35,10 @@ const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
   >
     <img
       src={thumb}
-      alt={`Témoignage — ${title}`}
+      data-fallback={thumbFallback}
+      alt={`Vidéo : ${title}`}
       loading="lazy"
-      width="480" height="270"
+      width="1280" height="720"
       class="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-soft group-hover:scale-105"
     />
     <span class="absolute inset-0 bg-encre/20 transition-colors duration-300 group-hover:bg-encre/10"></span>
@@ -46,6 +60,16 @@ const thumb = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
 )}
 
 <script>
+  // Repli de vignette : certaines vidéos n'ont pas de maxresdefault.
+  document.querySelectorAll('lite-yt img[data-fallback]').forEach((img) => {
+    img.addEventListener('error', function handle() {
+      const el = this as HTMLImageElement;
+      const fb = el.dataset.fallback;
+      if (fb && el.src !== fb) { el.src = fb; }
+      el.removeEventListener('error', handle);
+    });
+  });
+
   // Custom element : remplace la vignette par l'iframe YouTube au clic.
   class LiteYt extends HTMLElement {
     connectedCallback() {

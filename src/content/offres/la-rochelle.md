@@ -1,5 +1,5 @@
 ---
-titre: "Agent commercial immobilier de luxe — La Rochelle"
+titre: "Agent commercial immobilier de luxe à La Rochelle"
 region: "La Rochelle & littoral"
 ville: "La Rochelle"
 secteur: "Immobilier résidentiel de prestige"

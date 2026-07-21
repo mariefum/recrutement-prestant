@@ -27,7 +27,7 @@ tout :
 - un excellent **relationnel** et le sens du service haut de gamme ;
 - une **présentation soignée** et de la discrétion, indispensables avec une clientèle exigeante ;
 - de la **rigueur** et un véritable esprit entrepreneurial ;
-- la connaissance — ou l'envie d'apprendre — de votre **secteur géographique**.
+- la connaissance (ou l'envie d'apprendre) de votre **secteur géographique**.
 
 La motivation et l'accompagnement priment souvent sur l'expérience : de nombreux agents
 réussissent leur [reconversion dans l'immobilier de prestige](/actualites/reussir-sa-reconversion-immobilier-prestige).

@@ -32,7 +32,7 @@ const schemas = d.faq.length ? [faqSchema(d.faq), breadcrumb] : [breadcrumb];
       <a href="/offres-emploi" class="hover:text-bronze">Offres</a> <span class="mx-2">/</span>
       <span class="text-encre">{d.ville}</span>
     </nav>
-    <SectionHeading as="h1" eyebrow={`Recrutement — ${d.region}`} title={d.titre} intro={d.intro} />
+    <SectionHeading as="h1" eyebrow={`Recrutement · ${d.region}`} title={d.titre} intro={d.intro} />
     <div class="mt-10 flex flex-col sm:flex-row flex-wrap gap-4">
       {d.applyUrl && (
         <Button href={d.applyUrl} variant="primary" size="lg" target="_blank" rel="noopener">

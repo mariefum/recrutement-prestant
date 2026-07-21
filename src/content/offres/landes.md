@@ -1,11 +1,11 @@
 ---
-titre: "Agent commercial immobilier de luxe — Landes"
+titre: "Agent commercial immobilier de luxe dans les Landes"
 region: "Landes & Côte sud"
 ville: "Hossegor"
 secteur: "Immobilier résidentiel de prestige"
 typeContrat: "Agent commercial indépendant"
 statut: "Indépendant / Mandataire"
-resume: "Développez votre activité sur la côte landaise — Hossegor, Capbreton, Seignosse — entre océan, forêt et biens d'exception."
+resume: "Développez votre activité sur la côte landaise (Hossegor, Capbreton, Seignosse), entre océan, forêt et biens d'exception."
 applyUrl: "https://app.beetween.com/WeaselWeb/p/#/apply/job/ek403es7fh/agent-commercial-immobilier-luxe"
 datePublication: 2026-05-24
 dateValidite: 2026-12-31

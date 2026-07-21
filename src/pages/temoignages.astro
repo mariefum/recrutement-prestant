@@ -46,7 +46,7 @@ const breadcrumb = breadcrumbSchema([
 ]);
 ---
 <BaseLayout
-  title="Témoignages — agents commerciaux en immobilier de prestige"
+  title="Témoignages d'agents commerciaux en immobilier de prestige"
   description="Découvrez les témoignages vidéo des agents commerciaux Prestant : parcours et reconversions, statut indépendant, formation et liberté dans l'immobilier de prestige."
   ogImage="og-temoignages.jpg"
   schemas={[...videoSchemas, breadcrumb]}
@@ -69,7 +69,7 @@ const breadcrumb = breadcrumbSchema([
       <div class="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-6 gap-y-10">
         {g.videos.map((t, i) => (
           <figure data-reveal style={`transition-delay:${i * 50}ms`}>
-            <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom} — ${t.data.titre}`} vertical={true} />
+            <LiteYouTube id={t.data.youtubeId} title={`${t.data.prenom}, ${t.data.titre}`} vertical={true} />
             <figcaption class="mt-4">
               <p class="text-[0.65rem] uppercase tracking-widest text-bronze">{t.data.secteur}</p>
               <h3 class="mt-1.5 text-base font-light text-encre leading-snug">{t.data.titre}</h3>

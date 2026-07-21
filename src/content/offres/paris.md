@@ -1,5 +1,5 @@
 ---
-titre: "Agent commercial immobilier de luxe — Paris"
+titre: "Agent commercial immobilier de luxe à Paris"
 region: "Paris & Île-de-France"
 ville: "Paris"
 secteur: "Immobilier résidentiel de prestige"
