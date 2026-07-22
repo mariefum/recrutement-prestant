@@ -1,0 +1,52 @@
+---
+import { performances } from '../../data/site';
+import SectionHeading from '../ui/SectionHeading.astro';
+
+interface Props {
+  /** Sur fond sombre */
+  light?: boolean;
+}
+const { light = false } = Astro.props;
+const p = performances;
+---
+<div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+  <div data-reveal>
+    <SectionHeading
+      eyebrow="Résultats"
+      title="Le premier semestre 2026 en chiffres"
+      intro="Une dynamique commerciale forte, portée au quotidien par les agents du réseau. Rejoindre Prestant, c'est intégrer une agence qui vend."
+      light={light}
+    />
+
+    <!-- Chiffre phare -->
+    <div class="mt-10">
+      <p class:list={['display text-5xl sm:text-6xl', light ? 'text-bronze-light' : 'text-encre']}>
+        {p.phare.valeur}
+      </p>
+      <div class="filet mt-5"></div>
+      <p class:list={['mt-4 text-sm font-light leading-relaxed max-w-xs', light ? 'text-pierre-200' : 'text-pierre-600']}>
+        {p.phare.label}
+      </p>
+    </div>
+  </div>
+
+  <!-- Détail des performances -->
+  <div class="grid grid-cols-2 gap-x-8 gap-y-10">
+    {p.chiffres.map((c, i) => (
+      <div data-reveal style={`transition-delay:${i * 70}ms`}>
+        <p class:list={['display text-4xl sm:text-5xl', light ? 'text-blanc' : 'text-encre']}>{c.valeur}</p>
+        <div class="filet my-4"></div>
+        <p class:list={['text-sm font-medium tracking-wide', light ? 'text-blanc' : 'text-encre']}>{c.label}</p>
+        {c.precision && (
+          <p class:list={['mt-1 text-xs font-light leading-snug', light ? 'text-pierre-300' : 'text-pierre-500']}>
+            {c.precision}
+          </p>
+        )}
+      </div>
+    ))}
+  </div>
+</div>
+
+<p class:list={['mt-12 text-xs font-light', light ? 'text-pierre-400' : 'text-pierre-500']}>
+  Chiffres arrêtés au 30 juin 2026 ({p.periode}).
+</p>

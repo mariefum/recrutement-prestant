@@ -74,3 +74,17 @@ export const regions = [
   'Landes & Côte sud',
   'La Rochelle & littoral',
 ];
+
+// --- Performances commerciales (preuve de dynamisme) ---
+// Source : bilan « Premier semestre 2026 en quelques chiffres ».
+export const performances = {
+  periode: 'Premier semestre 2026',
+  // Chiffre phare mis en avant
+  phare: { valeur: '25,9 M€', label: 'de transactions réalisées sur le semestre' },
+  chiffres: [
+    { valeur: '180', label: 'mandats signés', precision: 'soit environ 1 mandat par jour' },
+    { valeur: '43', label: 'mandats exclusifs' },
+    { valeur: '19', label: 'compromis signés' },
+    { valeur: '22', label: 'actes authentiques' },
+  ],
+};
