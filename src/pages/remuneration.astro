@@ -38,7 +38,7 @@ const exemples = [
 ];
 
 const faq = [
-  { question: 'Comment suis-je rémunéré ?', reponse: "Vous percevez un pourcentage des honoraires HT encaissés, à l'entrée du mandat et à la vente. À l'entrée : 30 % pour un mandat simple, 40 % pour un mandat exclusif. À la vente (sortie) : 20 %. Entrée et vente se cumulent : rentrer un mandat exclusif et le vendre vous-même représente 60 % des honoraires." },
+  { question: 'Comment suis-je rémunéré ?', reponse: "Vous percevez un pourcentage des honoraires HT encaissés, à l'entrée du mandat et à la vente. À l'entrée : 30 % pour un mandat simple, 40 % pour un mandat exclusif. À la vente (sortie) : 20 %. Entrée et vente se cumulent : rentrer un mandat exclusif et le vendre vous-même représente 60 % des honoraires. Ces taux concernent les agents hors agence physique, c'est-à-dire hors bureaux de Biarritz et de Bordeaux." },
   { question: "Qu'est-ce que les « revenus boostés » au-delà de 100 000 € ?", reponse: "Une fois 100 000 € HT de chiffre d'affaires atteints sur l'exercice, vos taux d'entrée augmentent : 40 % pour un mandat simple et 50 % pour un mandat exclusif (la sortie reste à 20 %). Vos totaux passent ainsi à 60 % et 70 %." },
   { question: 'Comment fonctionne la cooptation ?', reponse: "Pour chaque agent qui rejoint l'équipe via votre réseau, vous touchez 5 % sur ses 3 premières ventes (sur les honoraires HT encaissés, déduction faite des éventuels apports d'affaires), dans la limite d'un forfait de 3 000 € TTC par vente." },
   { question: 'Y a-t-il un plafond de rémunération ?', reponse: "Non. Au statut d'agent commercial indépendant, vos revenus ne sont pas plafonnés : ils dépendent du nombre de mandats que vous rentrez et vendez, et de votre montée en puissance." },
@@ -63,7 +63,7 @@ const breadcrumb = breadcrumbSchema([
       as="h1"
       eyebrow="Rémunération"
       title="Une rémunération transparente et non plafonnée"
-      intro="Vous êtes rémunéré à chaque étape, de l'entrée du mandat à la vente, avec des taux qui augmentent une fois 100 000 € HT de CA atteints. S'y ajoute la cooptation."
+      intro="Vous êtes rémunéré de l'entrée du mandat à la vente, avec des taux qui augmentent une fois 100 000 € HT de CA atteints. S'y ajoute la cooptation."
     />
   </Section>
 
@@ -103,6 +103,10 @@ const breadcrumb = breadcrumbSchema([
         La part <strong class="font-medium">« vente » (sortie) est toujours de 20 %</strong>. Entrée et vente
         <strong class="font-medium"> se cumulent</strong> : si vous rentrez un mandat <em>et</em> le vendez vous-même,
         vous percevez les deux. Pourcentages calculés sur les honoraires HT encaissés.
+      </p>
+      <p class="mt-4 pt-4 border-t border-pierre-200 text-sm font-light text-pierre-600 leading-relaxed">
+        <strong class="font-medium text-encre">Ces taux concernent les agents hors agence physique</strong>,
+        c'est-à-dire hors bureaux de Biarritz et de Bordeaux, dont les conditions sont spécifiques.
       </p>
     </div>
   </Section>

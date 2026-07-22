@@ -138,25 +138,30 @@ const faq = [
         </h2>
         <div class="filet mt-6"></div>
         <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
-          Au statut d'agent commercial indépendant, vous êtes rémunéré à chaque étape, de la
-          rentrée du mandat à la vente, avec un commissionnement clair, des taux boostés au-delà
+          Au statut d'agent commercial indépendant, vous êtes rémunéré de la rentrée
+          du mandat à la vente, avec un commissionnement clair, des taux boostés au-delà
           de 100 000 € de CA et la cooptation. Le tout sans plafond de revenus.
         </p>
         <div class="mt-8">
           <Button href="/remuneration" variant="primary">Voir la grille de rémunération</Button>
         </div>
       </div>
-      <div class="grid grid-cols-3 gap-4" data-reveal>
-        {[
-          { v: 'jusqu’à 70%', l: 'des honoraires (entrée + vente, mandat exclusif)' },
-          { v: '+5%', l: 'de cooptation sur les ventes de vos recrues' },
-          { v: 'sans plafond', l: 'de revenus, au statut indépendant' },
-        ].map((c) => (
-          <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-5 text-center">
-            <p class="text-bronze-light text-2xl font-light">{c.v}</p>
-            <p class="mt-2 text-xs text-pierre-300 font-light leading-snug">{c.l}</p>
-          </div>
-        ))}
+      <div data-reveal>
+        <div class="grid grid-cols-3 gap-4">
+          {[
+            { v: 'jusqu’à 70%', l: 'des honoraires (entrée + vente, mandat exclusif)' },
+            { v: '+5%', l: 'de cooptation sur les ventes de vos recrues' },
+            { v: 'sans plafond', l: 'de revenus, au statut indépendant' },
+          ].map((c) => (
+            <div class="bg-encre-800/50 border border-pierre-600/30 rounded-sm p-5 text-center">
+              <p class="text-bronze-light text-2xl font-light">{c.v}</p>
+              <p class="mt-2 text-xs text-pierre-300 font-light leading-snug">{c.l}</p>
+            </div>
+          ))}
+        </div>
+        <p class="mt-5 text-xs font-light text-pierre-400 leading-relaxed">
+          Taux applicables aux agents hors agence physique (hors bureaux de Biarritz et de Bordeaux).
+        </p>
       </div>
     </div>
   </Section>

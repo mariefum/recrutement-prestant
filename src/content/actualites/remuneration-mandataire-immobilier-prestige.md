@@ -12,10 +12,10 @@ La rémunération est souvent la première question des candidats à l'immobilie
 c'est légitime. Contrairement à un salaire fixe, le revenu d'un **agent commercial
 indépendant** dépend de son activité, mais il n'est **pas plafonné**. Décryptage.
 
-## Un commissionnement à chaque étape
+## Un commissionnement sur l'entrée et sur la vente
 
-Chez Prestant, vous êtes rémunéré sur les **honoraires d'agence**, à chaque étape de la
-transaction :
+Chez Prestant, vous êtes rémunéré sur les **honoraires d'agence**, de l'entrée du mandat
+à la vente :
 
 - **30 %** pour la rentrée d'un **mandat simple** ;
 - **40 %** pour la rentrée d'un **mandat exclusif** ;

@@ -18,12 +18,12 @@ export const site = {
 // --- Coordonnées de contact (fournies) ---
 export const contact = {
   email: 'sandy.miranda@prestant.com',
-  // Numéro WhatsApp au format international, sans espaces pour les liens.
+  // WhatsApp : ligne directe de Sandy (recrutement).
   whatsapp: '+33632914464',
   whatsappAffiche: '+33 6 32 91 44 64',
-  // Tél d'appel direct (par défaut = numéro WhatsApp ; à ajuster si différent).
-  tel: '+33632914464',
-  telAffiche: '+33 6 32 91 44 64',
+  // Téléphone affiché et appelé sur le site : ligne de l'agence.
+  tel: '+33582806080',
+  telAffiche: '05 82 80 60 80',
   prenomContact: 'Sandy Miranda',
   messageWhatsappPredefini:
     "Bonjour, je souhaite des informations pour rejoindre Prestant en tant qu'agent commercial.",
