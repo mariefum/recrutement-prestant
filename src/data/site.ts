@@ -18,9 +18,9 @@ export const site = {
 // --- Coordonnées de contact (fournies) ---
 export const contact = {
   email: 'sandy.miranda@prestant.com',
-  // WhatsApp : ligne directe de Sandy (recrutement).
-  whatsapp: '+33632914464',
-  whatsappAffiche: '+33 6 32 91 44 64',
+  // WhatsApp : ligne de l'agence.
+  whatsapp: '+33582806080',
+  whatsappAffiche: '05 82 80 60 80',
   // Téléphone affiché et appelé sur le site : ligne de l'agence.
   tel: '+33582806080',
   telAffiche: '05 82 80 60 80',
@@ -65,14 +65,15 @@ export const chiffres = [
   { valeur: '5', suffixe: 'régions', label: 'parmi les plus belles de France' },
 ];
 
-// --- Secteurs où Prestant recrute (alignés sur les annonces Beetween) ---
+// --- Secteurs proposés dans les formulaires de candidature ---
 export const regions = [
-  'Paris & Île-de-France',
+  'Paris et alentours',
   "Bassin d'Arcachon",
-  'Bordeaux & Gironde',
-  "Côte d'Azur & Provence",
-  'Landes & Côte sud',
-  'La Rochelle & littoral',
+  'Bordeaux et vignobles',
+  'Côte Basque',
+  'Landes',
+  'La Rochelle et Île de Ré',
+  'Bretagne',
 ];
 
 // --- Performances commerciales (preuve de dynamisme) ---
