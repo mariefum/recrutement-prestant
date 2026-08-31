@@ -13,6 +13,8 @@ const offres = defineCollection({
     resume: z.string(),
     /** URL de la page de candidature Beetween (ATS) */
     applyUrl: z.string().url().optional(),
+    /** Email destinataire de la candidature (mailto). Par défaut : contact.email (Sandy). */
+    candidatureEmail: z.string().email().optional(),
     datePublication: z.coerce.date(),
     dateValidite: z.coerce.date().optional(),
     remunerationMin: z.number().optional(),

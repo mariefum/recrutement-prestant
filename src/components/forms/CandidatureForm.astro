@@ -6,14 +6,16 @@ interface Props {
   /** Pré-remplit le poste visé (depuis une offre) */
   poste?: string;
   compact?: boolean;
+  /** Destinataire du mailto (par défaut : contact.email). */
+  mailtoTo?: string;
 }
-const { poste = '', compact = false } = Astro.props;
+const { poste = '', compact = false, mailtoTo } = Astro.props;
 const champClass =
   'w-full bg-blanc border border-pierre-300 rounded-sm px-4 py-3 text-encre font-light ' +
   'placeholder:text-pierre-400 focus:border-bronze transition-colors duration-300';
 const labelClass = 'block text-xs uppercase tracking-widest text-pierre-600 mb-2';
 ---
-<form class="space-y-5" data-mailto-form="candidature" novalidate>
+<form class="space-y-5" data-mailto-form="candidature" data-mailto-to={mailtoTo} novalidate>
   <input type="hidden" name="_sujet" value="Candidature agent commercial Prestant" />
   {poste && <input type="hidden" name="poste" value={poste} />}
   <!-- Anti-spam honeypot (invisible) -->

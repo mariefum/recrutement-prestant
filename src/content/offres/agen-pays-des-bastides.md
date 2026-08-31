@@ -5,6 +5,7 @@ ville: "Agen"
 secteur: "Immobilier résidentiel de prestige"
 typeContrat: "Agent commercial indépendant"
 statut: "Indépendant / Mandataire"
+candidatureEmail: "bruno.desaintexupery@prestant.com"
 resume: "Développez un portefeuille de biens d'exception sur Agen, Villeneuve-sur-Lot et le Pays des Bastides, entre bastides médiévales et campagne préservée."
 datePublication: 2026-07-15
 dateValidite: 2026-12-31

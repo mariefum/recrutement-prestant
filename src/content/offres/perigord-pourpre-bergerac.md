@@ -5,6 +5,7 @@ ville: "Bergerac"
 secteur: "Immobilier résidentiel de prestige"
 typeContrat: "Agent commercial indépendant"
 statut: "Indépendant / Mandataire"
+candidatureEmail: "bruno.desaintexupery@prestant.com"
 resume: "Développez votre activité sur Bergerac et le Périgord Pourpre : demeures de caractère, propriétés viticoles et maisons de maître au cœur d'un art de vivre recherché."
 datePublication: 2026-07-15
 dateValidite: 2026-12-31

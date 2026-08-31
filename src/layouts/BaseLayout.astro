@@ -91,7 +91,8 @@ const { title, description, ogImage, noindex, schemas = [], darkHero = false } =
           if (form.dataset.mailtoForm === 'candidature') {
             body += `\n(Merci de joindre votre CV en pièce jointe de cet email.)\n`;
           }
-          const href = `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+          const to = form.dataset.mailtoTo || contactEmail;
+          const href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
           window.location.href = href;
           setStatus('Votre logiciel de messagerie va s’ouvrir avec votre message pré-rempli. Il ne reste qu’à l’envoyer.', '#A67C52');
         });

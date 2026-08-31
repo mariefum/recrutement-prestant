@@ -5,6 +5,7 @@ ville: "Cahors"
 secteur: "Immobilier résidentiel de prestige"
 typeContrat: "Agent commercial indépendant"
 statut: "Indépendant / Mandataire"
+candidatureEmail: "bruno.desaintexupery@prestant.com"
 resume: "Accompagnez une clientèle exigeante sur Cahors et le Lot historique : maisons de caractère, propriétés viticoles et biens d'exception au fil de la vallée."
 datePublication: 2026-07-15
 dateValidite: 2026-12-31

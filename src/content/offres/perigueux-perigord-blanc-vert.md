@@ -5,6 +5,7 @@ ville: "Périgueux"
 secteur: "Immobilier résidentiel de prestige"
 typeContrat: "Agent commercial indépendant"
 statut: "Indépendant / Mandataire"
+candidatureEmail: "bruno.desaintexupery@prestant.com"
 resume: "Rejoignez Prestant sur Périgueux et le Périgord Blanc & Vert : demeures historiques, châteaux et propriétés de caractère au cœur d'une région préservée."
 datePublication: 2026-07-15
 dateValidite: 2026-12-31

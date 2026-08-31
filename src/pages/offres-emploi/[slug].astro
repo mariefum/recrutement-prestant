@@ -175,7 +175,7 @@ const breadcrumb = breadcrumbSchema([
         <h2 class="display text-3xl text-encre text-center">Postuler — {d.region}</h2>
         <div class="filet mx-auto mt-6 mb-10"></div>
         <div class="bg-blanc rounded-sm p-6 sm:p-8 border border-pierre-200">
-          <CandidatureForm poste={d.titre} />
+          <CandidatureForm poste={d.titre} mailtoTo={d.candidatureEmail} />
         </div>
       </div>
     </Section>
