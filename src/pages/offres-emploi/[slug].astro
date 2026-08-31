@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Section from '../../components/ui/Section.astro';
 import Button from '../../components/ui/Button.astro';
+import CandidatureForm from '../../components/forms/CandidatureForm.astro';
 import { site, contact } from '../../data/site';
 import { breadcrumbSchema } from '../../data/schema';
 
@@ -143,29 +144,40 @@ const breadcrumb = breadcrumbSchema([
     </div>
   </Section>
 
-  <!-- Candidature via l'ATS Beetween -->
-  <Section id="postuler" bg="encre" spacing="lg">
-    <div class="max-w-2xl mx-auto text-center">
-      <p class="eyebrow mb-4">Candidater</p>
-      <h2 class="display text-3xl sm:text-4xl text-blanc">Postulez en quelques minutes</h2>
-      <div class="filet mx-auto mt-6 mb-6"></div>
-      <p class="text-pierre-200 font-light leading-relaxed">
-        Votre candidature pour le poste <strong class="text-blanc font-medium">« {d.titre} »</strong>
-        se fait sur notre espace recrutement sécurisé. Déposez votre CV en ligne&nbsp;: nous revenons
-        vers vous rapidement.
-      </p>
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-        {d.applyUrl && (
+  {d.applyUrl ? (
+    <!-- Candidature via l'ATS Beetween -->
+    <Section id="postuler" bg="encre" spacing="lg">
+      <div class="max-w-2xl mx-auto text-center">
+        <p class="eyebrow mb-4">Candidater</p>
+        <h2 class="display text-3xl sm:text-4xl text-blanc">Postulez en quelques minutes</h2>
+        <div class="filet mx-auto mt-6 mb-6"></div>
+        <p class="text-pierre-200 font-light leading-relaxed">
+          Votre candidature pour le poste <strong class="text-blanc font-medium">« {d.titre} »</strong>
+          se fait sur notre espace recrutement sécurisé. Déposez votre CV en ligne&nbsp;: nous revenons
+          vers vous rapidement.
+        </p>
+        <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
           <Button href={d.applyUrl} variant="primary" size="lg" target="_blank" rel="noopener">
             Déposer ma candidature
           </Button>
-        )}
-        <Button href="/offres-emploi#candidater" variant="outline" size="lg"
-          class="!text-blanc !border-pierre-200/40 hover:!border-bronze">
-          Candidature spontanée
-        </Button>
+          <Button href="/offres-emploi#candidater" variant="outline" size="lg"
+            class="!text-blanc !border-pierre-200/40 hover:!border-bronze">
+            Candidature spontanée
+          </Button>
+        </div>
+        <p class="mt-6 text-xs text-pierre-300">Vous serez redirigé vers notre outil de recrutement Beetween.</p>
       </div>
-      <p class="mt-6 text-xs text-pierre-300">Vous serez redirigé vers notre outil de recrutement Beetween.</p>
-    </div>
-  </Section>
+    </Section>
+  ) : (
+    <!-- Candidature par formulaire (mailto), poste pré-rempli -->
+    <Section id="postuler" bg="creme" spacing="lg">
+      <div class="max-w-2xl mx-auto">
+        <h2 class="display text-3xl text-encre text-center">Postuler — {d.region}</h2>
+        <div class="filet mx-auto mt-6 mb-10"></div>
+        <div class="bg-blanc rounded-sm p-6 sm:p-8 border border-pierre-200">
+          <CandidatureForm poste={d.titre} />
+        </div>
+      </div>
+    </Section>
+  )}
 </BaseLayout>
