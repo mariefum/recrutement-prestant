@@ -14,3 +14,10 @@ node_modules/
 .DS_Store
 *.log
 .vercel
+
+# Vidéos sources brutes d'interviews (trop lourdes pour Git — garder hors du dépôt)
+SITE RECRUTEMENT PRESTANT/
+*.mp4
+*.mov
+*.MOV
+*.MP4
