@@ -42,7 +42,7 @@ const avantages = [
 const faq = [
   { question: "Faut-il déjà avoir de l'expérience en immobilier ?", reponse: "Non. Nous accueillons des profils confirmés comme des personnes en reconversion. Notre parcours de formation et notre accompagnement sont conçus pour faire réussir les motivés, quel que soit leur point de départ." },
   { question: 'Quel est le statut proposé ?', reponse: "Vous exercez en tant qu'agent commercial indépendant (mandataire). Vous gardez votre liberté d'organisation tout en bénéficiant de la marque, des outils et de l'accompagnement Prestant." },
-  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez un pourcentage des honoraires à l'entrée du mandat (30 % simple, 40 % exclusif) et 20 % à la vente, cumulables. Au-delà de 100 000 € HT de CA, vos taux d'entrée passent à 40 % et 50 %. S'y ajoute la cooptation (5 %). Détail et exemples sur la page Rémunération." },
+  { question: 'Comment fonctionne la rémunération ?', reponse: "Vous touchez un pourcentage des honoraires à l'entrée du mandat (30 % simple, 40 % exclusif) et 20 % à la vente, cumulables. S'y ajoute la cooptation (5 %). Détail et exemples sur la page Rémunération." },
   { question: 'Dans quelles régions recrutez-vous ?', reponse: "Nous développons le réseau dans cinq des plus belles régions de France : Pays Basque, Côte d'Azur, Paris & Île-de-France, Alpes et Provence. D'autres secteurs sont étudiés selon les profils." },
 ];
 ---
@@ -139,8 +139,8 @@ const faq = [
         <div class="filet mt-6"></div>
         <p class="mt-6 text-pierre-200 font-light leading-relaxed max-w-prose">
           Au statut d'agent commercial indépendant, vous êtes rémunéré de la rentrée
-          du mandat à la vente, avec un commissionnement clair, des taux boostés au-delà
-          de 100 000 € de CA et la cooptation. Le tout sans plafond de revenus.
+          du mandat à la vente, avec un commissionnement clair et la cooptation.
+          Le tout sans plafond de revenus.
         </p>
         <div class="mt-8">
           <Button href="/remuneration" variant="primary">Voir la grille de rémunération</Button>
@@ -149,7 +149,7 @@ const faq = [
       <div data-reveal>
         <div class="grid grid-cols-3 gap-4">
           {[
-            { v: 'jusqu’à 70%', l: 'des honoraires (entrée + vente, mandat exclusif)' },
+            { v: 'jusqu’à 60%', l: 'des honoraires (entrée + vente, mandat exclusif)' },
             { v: '+5%', l: 'de cooptation sur les ventes de vos recrues' },
             { v: 'sans plafond', l: 'de revenus, au statut indépendant' },
           ].map((c) => (

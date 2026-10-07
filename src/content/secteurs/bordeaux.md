@@ -13,7 +13,7 @@ faq:
   - question: "Le marché bordelais est-il porteur pour le luxe ?"
     reponse: "Oui : Bordeaux et sa région attirent une clientèle exigeante, séduite par le cadre de vie, le patrimoine et les domaines viticoles, avec un marché de prestige dynamique."
   - question: "Comment suis-je rémunéré à Bordeaux ?"
-    reponse: "Au statut indépendant, par un commissionnement non plafonné sur les honoraires, avec des taux boostés au-delà de 100 000 € de CA et la cooptation."
+    reponse: "Au statut indépendant, par un commissionnement non plafonné sur les honoraires (à l'entrée du mandat et à la vente), auquel s'ajoute la cooptation."
 ---
 
 ## Le marché du prestige à Bordeaux

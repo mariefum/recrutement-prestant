@@ -8,24 +8,14 @@ import Button from '../components/ui/Button.astro';
 import { faqSchema, breadcrumbSchema } from '../data/schema';
 
 // Modèle de commissionnement Prestant (% des honoraires HT encaissés).
-// Système de paliers : les taux d'entrée augmentent au-delà de 100 000 € HT de CA.
 const paliers = [
   {
-    titre: 'Jusqu’à 100 000 € HT de CA',
-    sous: 'Votre rémunération de départ',
+    titre: 'Votre commissionnement',
+    sous: 'Part des honoraires HT encaissés',
     highlight: false,
     lignes: [
       { type: 'Mandat simple', entree: '30 %', total: '50 %' },
       { type: 'Mandat exclusif', entree: '40 %', total: '60 %' },
-    ],
-  },
-  {
-    titre: 'Au-delà de 100 000 € HT',
-    sous: 'Revenus boostés 🚀',
-    highlight: true,
-    lignes: [
-      { type: 'Mandat simple', entree: '40 %', total: '60 %' },
-      { type: 'Mandat exclusif', entree: '50 %', total: '70 %' },
     ],
   },
 ];
@@ -33,13 +23,12 @@ const paliers = [
 // Exemple sur une vente générant 40 000 € HT d'honoraires d'agence.
 const exemples = [
   { titre: 'Mandat exclusif rentré et vendu', detail: '40 % (entrée) + 20 % (vente) = 60 %', commission: '24 000 €' },
-  { titre: 'Le même, une fois 100 000 € atteints 🚀', detail: '50 % (entrée) + 20 % (vente) = 70 %', commission: '28 000 €' },
+  { titre: 'Mandat simple rentré et vendu', detail: '30 % (entrée) + 20 % (vente) = 50 %', commission: '20 000 €' },
   { titre: 'Vente du mandat d’un collègue', detail: '20 % (vente)', commission: '8 000 €' },
 ];
 
 const faq = [
   { question: 'Comment suis-je rémunéré ?', reponse: "Vous percevez un pourcentage des honoraires HT encaissés, à l'entrée du mandat et à la vente. À l'entrée : 30 % pour un mandat simple, 40 % pour un mandat exclusif. À la vente (sortie) : 20 %. Entrée et vente se cumulent : rentrer un mandat exclusif et le vendre vous-même représente 60 % des honoraires. Ces taux concernent les agents hors agence physique, c'est-à-dire hors bureaux de Biarritz et de Bordeaux." },
-  { question: "Qu'est-ce que les « revenus boostés » au-delà de 100 000 € ?", reponse: "Une fois 100 000 € HT de chiffre d'affaires atteints sur l'exercice, vos taux d'entrée augmentent : 40 % pour un mandat simple et 50 % pour un mandat exclusif (la sortie reste à 20 %). Vos totaux passent ainsi à 60 % et 70 %." },
   { question: 'Comment fonctionne la cooptation ?', reponse: "Pour chaque agent qui rejoint l'équipe via votre réseau, vous touchez 5 % sur ses 3 premières ventes (sur les honoraires HT encaissés, déduction faite des éventuels apports d'affaires), dans la limite d'un forfait de 3 000 € TTC par vente." },
   { question: 'Y a-t-il un plafond de rémunération ?', reponse: "Non. Au statut d'agent commercial indépendant, vos revenus ne sont pas plafonnés : ils dépendent du nombre de mandats que vous rentrez et vendez, et de votre montée en puissance." },
 ];
@@ -51,7 +40,7 @@ const breadcrumb = breadcrumbSchema([
 ---
 <BaseLayout
   title="Rémunération d'un agent commercial immobilier indépendant"
-  description="Rémunération d'un agent commercial indépendant Prestant : 30 à 50 % à l'entrée du mandat selon paliers, 20 % à la vente et cooptation. Sans plafond."
+  description="Rémunération d'un agent commercial indépendant Prestant : 30 à 40 % à l'entrée du mandat, 20 % à la vente et cooptation. Jusqu'à 60 % des honoraires. Sans plafond."
   ogImage="og-remuneration.jpg"
   schemas={[faqSchema(faq), breadcrumb]}
 >
@@ -63,14 +52,14 @@ const breadcrumb = breadcrumbSchema([
       as="h1"
       eyebrow="Rémunération"
       title="Une rémunération transparente et non plafonnée"
-      intro="Vous êtes rémunéré de l'entrée du mandat à la vente, avec des taux qui augmentent une fois 100 000 € HT de CA facturé. S'y ajoute la cooptation."
+      intro="Vous êtes rémunéré de l'entrée du mandat à la vente, sur les honoraires HT encaissés. S'y ajoute la cooptation."
     />
   </Section>
 
-  <!-- Le principe : commissions par palier -->
+  <!-- Le principe : commissions -->
   <Section bg="blanc" spacing="lg">
-    <SectionHeading eyebrow="Le commissionnement" title="Des taux qui progressent avec votre performance" />
-    <div class="mt-12 grid gap-6 lg:grid-cols-2">
+    <SectionHeading eyebrow="Le commissionnement" title="Une part élevée des honoraires que vous générez" />
+    <div class="mt-12 grid gap-6 max-w-xl">
       {paliers.map((p, i) => (
         <div
           class:list={[
@@ -161,7 +150,7 @@ const breadcrumb = breadcrumbSchema([
     <SectionHeading
       eyebrow="Exemple concret"
       title="Pour une vente générant 40 000 € d'honoraires"
-      intro="Selon votre rôle sur le mandat et votre palier, voici ce que vous percevez (hors cooptation)."
+      intro="Selon votre rôle sur le mandat, voici ce que vous percevez (hors cooptation)."
     />
     <div class="mt-12 grid gap-6 md:grid-cols-3">
       {exemples.map((e, i) => (

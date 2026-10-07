@@ -32,7 +32,7 @@ honoraires**, sans plafond. Il gère en revanche ses cotisations sociales et son
 - **Charges** : gérées par l'employeur vs par l'agent.
 
 Pour comprendre concrètement les revenus d'un indépendant, consultez notre page
-[rémunération](/remuneration), avec ses paliers et exemples chiffrés.
+[rémunération](/remuneration), avec son barème et ses exemples chiffrés.
 
 ## La solution Prestant : l'indépendance accompagnée
 
